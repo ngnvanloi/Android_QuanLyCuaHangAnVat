@@ -50,9 +50,9 @@ public class MyViewPageAdapter_Menu extends  FragmentStatePagerAdapter{
            case  1:
                return "Combo 1 người";
            case 2:
-               return "Combo 2 người";
+               return "Combo nhóm";
            case 3:
-               return "Combo 3 người";
+               return "Burger - Cơm - Mì Ý";
            case 4:
                return "Gà rán";
            default:

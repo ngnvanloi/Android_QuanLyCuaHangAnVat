@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterListViewFood;
 import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterListViewFood;
@@ -20,6 +21,8 @@ import com.example.quanlycuahangbandoanvat.DAO.FoodDAO;
 import com.example.quanlycuahangbandoanvat.DTO.Food;
 import com.example.quanlycuahangbandoanvat.GUI.MainDemoFirebase;
 import com.example.quanlycuahangbandoanvat.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -58,6 +61,7 @@ public class AllFood_Fragment extends Fragment {
     CustomAdapterListViewFood customAdapterFood;
     FoodDAO foodDAO = new FoodDAO();
     ArrayList<Food> listFood = new ArrayList<>();
+    TextView tv;
 
     int selectedPosition = -1;
     @Override
@@ -66,12 +70,17 @@ public class AllFood_Fragment extends Fragment {
         // ánh xạ ID
         listViewAllFood = (view).findViewById(R.id.listViewAllFood);
 
+
         // innit array list Food
         foodDAO.selectAll(new OnDataLoadedCallbackFood() {
             @Override
             public void onDataLoaded(ArrayList<Food> Foods) {
                 listFood.addAll(Foods);
-                foodBUS.setListFood(listFood);
+
+                // init list view
+                customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, listFood);
+                listViewAllFood.setAdapter(customAdapterFood);
+
             }
 
             @Override
@@ -81,9 +90,9 @@ public class AllFood_Fragment extends Fragment {
         });
 
         // init list view
-        loadArrayListFood();
-        customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, listFood);
-        listViewAllFood.setAdapter(customAdapterFood);
+//        loadArrayListFood();
+//        customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, listFood);
+//        listViewAllFood.setAdapter(customAdapterFood);
     }
 
     public void loadArrayListFood(){

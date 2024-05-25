@@ -26,6 +26,15 @@ public class FoodBUS {
         return this.listFood;
     }
 
+    public ArrayList<Food> getFoodByCategory(String category_ID) {
+        ArrayList<Food> result = new ArrayList<>();
+        for(Food food : this.listFood) {
+            if(food.getFood_Category_ID().equals(category_ID)) {
+                result.add(food);
+            }
+        }
+        return result;
+    }
 
     public Food getByIndex(int index) {
         return this.listFood.get(index);

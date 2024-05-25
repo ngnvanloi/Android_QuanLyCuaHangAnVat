@@ -2,14 +2,24 @@ package com.example.quanlycuahangbandoanvat.GUI.MenuFragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 
+import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterListViewFood;
+import com.example.quanlycuahangbandoanvat.BUS.FoodBUS;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackFood;
+import com.example.quanlycuahangbandoanvat.DAO.FoodDAO;
+import com.example.quanlycuahangbandoanvat.DTO.Food;
 import com.example.quanlycuahangbandoanvat.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,5 +73,57 @@ public class ChickenFried_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chicken_fried_, container, false);
+    }
+
+    // khai báo biến
+    ListView listViewChickenFriedFood;
+    FoodBUS foodBUS = new FoodBUS();
+    CustomAdapterListViewFood customAdapterFood;
+    FoodDAO foodDAO = new FoodDAO();
+    ArrayList<Food> listFood = new ArrayList<>();
+    ArrayList<Food> listFoodByCategory = new ArrayList<>();
+    int selectedPosition = -1;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // ánh xạ ID
+        listViewChickenFriedFood = (view).findViewById(R.id.listViewChickenFriedFood);
+
+        // innit array list Food
+        foodDAO.selectAll(new OnDataLoadedCallbackFood() {
+            @Override
+            public void onDataLoaded(ArrayList<Food> Foods) {
+                listFood.addAll(Foods);
+                foodBUS = new FoodBUS(listFood);
+
+                // init listview
+                listFoodByCategory.addAll(foodBUS.getFoodByCategory("nyazUrD8fAxHZISmBH6T"));
+                customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, listFoodByCategory);
+                listViewChickenFriedFood.setAdapter(customAdapterFood);
+            }
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+
+    }
+
+    public void loadArrayListFood(){
+        foodDAO.selectAll(new OnDataLoadedCallbackFood() {
+            @Override
+            public void onDataLoaded(ArrayList<Food> Foods) {
+                listFood.clear();
+                listFood.addAll(Foods);
+                customAdapterFood.notifyDataSetChanged();
+                foodBUS = new FoodBUS(listFood);
+                //foodBUS.setListFood(listFood);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
     }
 }

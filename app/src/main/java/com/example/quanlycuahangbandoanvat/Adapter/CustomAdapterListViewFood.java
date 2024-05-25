@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.example.quanlycuahangbandoanvat.DTO.Food;
+import com.example.quanlycuahangbandoanvat.Helper.Formatter;
 import com.example.quanlycuahangbandoanvat.R;
 
 import java.util.ArrayList;
@@ -53,7 +54,8 @@ public class CustomAdapterListViewFood extends ArrayAdapter {
         tvName.setText(Food.getFood_Name());
 
         TextView tvPrice = (TextView) convertView.findViewById(R.id.tvFoodPrice);
-        tvPrice.setText(String.valueOf(Food.getFood_Price()));
+        String priceFormat = Formatter.FormatVND(Food.getFood_Price());
+        tvPrice.setText(priceFormat);
 
         TextView tvDes = (TextView) convertView.findViewById(R.id.tvFoodDescription);
         tvDes.setText(String.valueOf(Food.getFood_Description()));
