@@ -3,24 +3,18 @@ package com.example.quanlycuahangbandoanvat.Config;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.quanlycuahangbandoanvat.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 import java.util.Map;
 
 public class InitDatabase {
@@ -33,19 +27,20 @@ public class InitDatabase {
         this.firestore = FirebaseFirestore.getInstance();
     }
 
+    // Đã push all data
     public void initData() {
-        // Mảng này chứa các resource ID của tệp JSON trong res/raw
         int[] jsonFiles = {
-                //R.raw.role,
+                R.raw.role,
                 R.raw.bill,
-                //R.raw.bill_detail,
-                //R.raw.cart,
-                //R.raw.cart_detail,
-                //R.raw.category,
-                //R.raw.customer,
-                //R.raw.food,
-                //R.raw.promotion,
-                //R.raw.rating
+                R.raw.bill_detail,
+                R.raw.cart,
+                R.raw.cart_detail,
+                R.raw.category,
+                R.raw.customer,
+                R.raw.food,
+                R.raw.promotion,
+                R.raw.rating,
+                R.raw.employee
         };
 
         for (int resourceId : jsonFiles) {
@@ -88,20 +83,23 @@ public class InitDatabase {
     }
 
     private void processJsonObjectData(String collectionName, JsonObject jsonObject) {
-        // Xử lý đối tượng JSON
-        firestore.collection(collectionName).add(jsonObject)
+        firestore.collection(collectionName).add(convertJsonObjectToMap(jsonObject))
                 .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
     }
 
     private void processJsonArrayData(String collectionName, JsonArray jsonArray) {
-        // Xử lý mảng JSON
-        List<JsonObject> dataList = new Gson().fromJson(jsonArray, new TypeToken<List<JsonObject>>(){}.getType());
-        for (JsonObject jsonObject : dataList) {
-            firestore.collection(collectionName).add(jsonObject)
+        for (JsonElement element : jsonArray) {
+            JsonObject jsonObject = element.getAsJsonObject();
+            firestore.collection(collectionName).add(convertJsonObjectToMap(jsonObject))
                     .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId()))
                     .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
         }
+    }
+
+    private Map<String, Object> convertJsonObjectToMap(JsonObject jsonObject) {
+        return new Gson().fromJson(jsonObject, new TypeToken<Map<String, Object>>() {
+        }.getType());
     }
 
     private String getCollectionNameFromResourceId(int resourceId) {
