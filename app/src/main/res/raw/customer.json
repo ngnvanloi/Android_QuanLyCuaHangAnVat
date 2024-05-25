@@ -1,5 +1,5 @@
-{
-  "2024KH0912578064": {
+[
+  {
     "Cus_ID": "2024KH0912578064",
     "Cus_Name": "Trần Khánh Minh",
     "Cus_Email": "minh@example.com",
@@ -8,7 +8,7 @@
     "Cus_Password": "minh123",
     "Cus_Phone": "0912578064"
   },
-  "2024KH0956784321": {
+  {
     "Cus_ID": "2024KH0956784321",
     "Cus_Name": "Đinh Thị Cẩm Tiên",
     "Cus_Email": "tien@example.com",
@@ -17,7 +17,7 @@
     "Cus_Password": "tien123",
     "Cus_Phone": "0956784321"
   },
-  "2024KH0967457908": {
+  {
     "Cus_ID": "2024KH0967457908",
     "Cus_Name": "Võ Hoàng Bảo Ngọc",
     "Cus_Email": "ngoc@example.com",
@@ -26,7 +26,7 @@
     "Cus_Password": "ngoc123",
     "Cus_Phone": "0967457908"
   },
-  "2024KH0975436789": {
+  {
     "Cus_ID": "2024KH0975436789",
     "Cus_Name": "Trần Minh Bảo",
     "Cus_Email": "bao@example.com",
@@ -35,7 +35,7 @@
     "Cus_Password": "bao123",
     "Cus_Phone": "0975436789"
   },
-  "2024KH0984325678": {
+  {
     "Cus_ID": "2024KH0984325678",
     "Cus_Name": "Võ Thị Luyến",
     "Cus_Email": "luyen@example.com",
@@ -44,4 +44,4 @@
     "Cus_Password": "luyen123",
     "Cus_Phone": "0984325678"
   }
-}
+]

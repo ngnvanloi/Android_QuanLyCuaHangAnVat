@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity  implements OnNavigationLink
         imageViewAccountNavigation = findViewById(R.id.imageViewAccountNavigation);
         imageViewOptionNavigation = findViewById(R.id.imageViewOptionNavigation);
 
-        // init database QuanLyCuaHangBanDoAnVat
+        //init database QuanLyCuaHangBanDoAnVat
         //InitDatabase initDatabase = new InitDatabase(this);
         //initDatabase.initData();
 

@@ -1,5 +1,5 @@
-{
-  "2024NV01": {
+[
+  {
     "Empl_ID": "2024NV01",
     "Empl_name": "Nguyễn Thị Thu Hà",
     "Empl_Password": "ha123",
@@ -9,7 +9,7 @@
     "Date_work": "2024-01-15",
     "Role_ID": "Q01"
   },
-  "2024NV02": {
+  {
     "Empl_ID": "2024NV02",
     "Empl_name": "Đỗ Bảo Toàn",
     "Empl_Password": "toan123",
@@ -19,7 +19,7 @@
     "Date_work": "2023-11-20",
     "Role_ID": "Q02"
   },
-  "2024NV03": {
+  {
     "Empl_ID": "2024NV03",
     "Empl_name": "Trần Hoàng Anh Khôi",
     "Empl_Password": "khoi123",
@@ -29,7 +29,7 @@
     "Date_work": "2024-02-28",
     "Role_ID": "Q02"
   },
-  "2024NV04": {
+  {
     "Empl_ID": "2024NV04",
     "Empl_name": "Nguyễn Văn Lợi",
     "Empl_Password": "loi123",
@@ -39,7 +39,7 @@
     "Date_work": "2024-03-10",
     "Role_ID": "Q02"
   },
-  "2024NV05": {
+  {
     "Empl_ID": "2024NV05",
     "Empl_name": "Lê Thị Trà My",
     "Empl_Password": "my123",
@@ -49,4 +49,4 @@
     "Date_work": "2024-04-05",
     "Role_ID": "Q01"
   }
-}
+]
