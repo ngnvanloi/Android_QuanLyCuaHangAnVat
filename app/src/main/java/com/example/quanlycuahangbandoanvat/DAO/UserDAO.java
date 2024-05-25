@@ -99,7 +99,7 @@ public class UserDAO implements DAOinterface<User> {
         });
     }
 
-    @Override
+//    @Override
     public ArrayList<User> selectAll(final OnDataLoadedCallback listener) {
         final ArrayList<User> listUser = new ArrayList<>();
         this.usersCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

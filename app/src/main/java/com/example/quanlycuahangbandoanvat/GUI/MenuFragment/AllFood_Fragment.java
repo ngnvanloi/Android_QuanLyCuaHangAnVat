@@ -9,8 +9,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterListViewFood;
+import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterListViewFood;
+import com.example.quanlycuahangbandoanvat.BUS.FoodBUS;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallback;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackFood;
+import com.example.quanlycuahangbandoanvat.DAO.FoodDAO;
+import com.example.quanlycuahangbandoanvat.DTO.Food;
+import com.example.quanlycuahangbandoanvat.GUI.MainDemoFirebase;
 import com.example.quanlycuahangbandoanvat.R;
+
+import java.util.ArrayList;
 
 
 /**
@@ -41,8 +52,54 @@ public class AllFood_Fragment extends Fragment {
         return inflater.inflate(R.layout.fragment_all_food, container, false);
     }
 
+    // khai báo biến
+    ListView listViewAllFood;
+    FoodBUS foodBUS = new FoodBUS();
+    CustomAdapterListViewFood customAdapterFood;
+    FoodDAO foodDAO = new FoodDAO();
+    ArrayList<Food> listFood = new ArrayList<>();
+
+    int selectedPosition = -1;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // ánh xạ ID
+        listViewAllFood = (view).findViewById(R.id.listViewAllFood);
+
+        // innit array list Food
+        foodDAO.selectAll(new OnDataLoadedCallbackFood() {
+            @Override
+            public void onDataLoaded(ArrayList<Food> Foods) {
+                listFood.addAll(Foods);
+                foodBUS.setListFood(listFood);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+
+        // init list view
+        loadArrayListFood();
+        customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, listFood);
+        listViewAllFood.setAdapter(customAdapterFood);
+    }
+
+    public void loadArrayListFood(){
+        foodDAO.selectAll(new OnDataLoadedCallbackFood() {
+            @Override
+            public void onDataLoaded(ArrayList<Food> Foods) {
+                listFood.clear();
+                listFood.addAll(Foods);
+                customAdapterFood.notifyDataSetChanged();
+                foodBUS.setListFood(listFood);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
     }
 }

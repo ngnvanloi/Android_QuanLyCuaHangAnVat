@@ -3,50 +3,50 @@ package com.example.quanlycuahangbandoanvat.DTO;
 import java.util.Date;
 
 public class Rating {
-    private String ratingID;
-    private String billID;
-    private String ratingComment;
-    private Date ratingDate;
+    private String Rating_ID;
+    private String Bill_ID;
+    private String Rating_comment;
+    private Date Rating_date;
 
     public Rating() {
     }
 
-    public Rating(String ratingID, String billID, String ratingComment, Date ratingDate) {
-        this.ratingID = ratingID;
-        this.billID = billID;
-        this.ratingComment = ratingComment;
-        this.ratingDate = ratingDate;
+    public Rating(String rating_ID, String bill_ID, String rating_comment, Date rating_date) {
+        Rating_ID = rating_ID;
+        Bill_ID = bill_ID;
+        Rating_comment = rating_comment;
+        Rating_date = rating_date;
     }
 
-    public String getRatingID() {
-        return ratingID;
+    public String getRating_ID() {
+        return Rating_ID;
     }
 
-    public void setRatingID(String ratingID) {
-        this.ratingID = ratingID;
+    public void setRating_ID(String rating_ID) {
+        Rating_ID = rating_ID;
     }
 
-    public String getBillID() {
-        return billID;
+    public String getBill_ID() {
+        return Bill_ID;
     }
 
-    public void setBillID(String billID) {
-        this.billID = billID;
+    public void setBill_ID(String bill_ID) {
+        Bill_ID = bill_ID;
     }
 
-    public String getRatingComment() {
-        return ratingComment;
+    public String getRating_comment() {
+        return Rating_comment;
     }
 
-    public void setRatingComment(String ratingComment) {
-        this.ratingComment = ratingComment;
+    public void setRating_comment(String rating_comment) {
+        Rating_comment = rating_comment;
     }
 
-    public Date getRatingDate() {
-        return ratingDate;
+    public Date getRating_date() {
+        return Rating_date;
     }
 
-    public void setRatingDate(Date ratingDate) {
-        this.ratingDate = ratingDate;
+    public void setRating_date(Date rating_date) {
+        Rating_date = rating_date;
     }
 }

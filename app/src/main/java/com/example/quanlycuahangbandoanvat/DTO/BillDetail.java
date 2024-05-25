@@ -2,50 +2,50 @@ package com.example.quanlycuahangbandoanvat.DTO;
 
 
 public class BillDetail {
-    private String billID;
-    private String foodID;
-    private int foodCount;
-    private Double totalBill;
+    private String Bill_ID;
+    private String Food_ID;
+    private int Food_count;
+    private Double Total_Bill;
 
     public BillDetail() {
     }
 
-    public BillDetail(String billID, String foodID, int foodCount, Double totalBill) {
-        this.billID = billID;
-        this.foodID = foodID;
-        this.foodCount = foodCount;
-        this.totalBill = totalBill;
+    public BillDetail(String bill_ID, String food_ID, int food_count, Double total_Bill) {
+        Bill_ID = bill_ID;
+        Food_ID = food_ID;
+        Food_count = food_count;
+        Total_Bill = total_Bill;
     }
 
-    public String getBillID() {
-        return billID;
+    public String getBill_ID() {
+        return Bill_ID;
     }
 
-    public void setBillID(String billID) {
-        this.billID = billID;
+    public void setBill_ID(String bill_ID) {
+        Bill_ID = bill_ID;
     }
 
-    public String getFoodID() {
-        return foodID;
+    public String getFood_ID() {
+        return Food_ID;
     }
 
-    public void setFoodID(String foodID) {
-        this.foodID = foodID;
+    public void setFood_ID(String food_ID) {
+        Food_ID = food_ID;
     }
 
-    public int getFoodCount() {
-        return foodCount;
+    public int getFood_count() {
+        return Food_count;
     }
 
-    public void setFoodCount(int foodCount) {
-        this.foodCount = foodCount;
+    public void setFood_count(int food_count) {
+        Food_count = food_count;
     }
 
-    public Double getTotalBill() {
-        return totalBill;
+    public Double getTotal_Bill() {
+        return Total_Bill;
     }
 
-    public void setTotalBill(Double totalBill) {
-        this.totalBill = totalBill;
+    public void setTotal_Bill(Double total_Bill) {
+        Total_Bill = total_Bill;
     }
 }

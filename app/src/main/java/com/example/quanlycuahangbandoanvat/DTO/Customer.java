@@ -1,80 +1,80 @@
 package com.example.quanlycuahangbandoanvat.DTO;
 
 public class Customer {
-    private String cusID;
-    private String cusName;
-    private String cusEmail;
-    private String cusAddress;
-    private String cusSex;
-    private String cusPassword;
-    private String cusPhone;
+    private String Cus_ID;
+    private String Cus_Name;
+    private String Cus_Email;
+    private String Cus_Address;
+    private String Cus_Sex;
+    private String Cus_Password;
+    private String Cus_Phone;
 
     public Customer() {
     }
 
-    public Customer(String cusID, String cusName, String cusEmail, String cusAddress, String cusSex, String cusPassword, String cusPhone) {
-        this.cusID = cusID;
-        this.cusName = cusName;
-        this.cusEmail = cusEmail;
-        this.cusAddress = cusAddress;
-        this.cusSex = cusSex;
-        this.cusPassword = cusPassword;
-        this.cusPhone = cusPhone;
+    public Customer(String cus_ID, String cus_Name, String cus_Email, String cus_Address, String cus_Sex, String cus_Password, String cus_Phone) {
+        Cus_ID = cus_ID;
+        Cus_Name = cus_Name;
+        Cus_Email = cus_Email;
+        Cus_Address = cus_Address;
+        Cus_Sex = cus_Sex;
+        Cus_Password = cus_Password;
+        Cus_Phone = cus_Phone;
     }
 
-    public String getCusID() {
-        return cusID;
+    public String getCus_ID() {
+        return Cus_ID;
     }
 
-    public void setCusID(String cusID) {
-        this.cusID = cusID;
+    public void setCus_ID(String cus_ID) {
+        Cus_ID = cus_ID;
     }
 
-    public String getCusName() {
-        return cusName;
+    public String getCus_Name() {
+        return Cus_Name;
     }
 
-    public void setCusName(String cusName) {
-        this.cusName = cusName;
+    public void setCus_Name(String cus_Name) {
+        Cus_Name = cus_Name;
     }
 
-    public String getCusEmail() {
-        return cusEmail;
+    public String getCus_Email() {
+        return Cus_Email;
     }
 
-    public void setCusEmail(String cusEmail) {
-        this.cusEmail = cusEmail;
+    public void setCus_Email(String cus_Email) {
+        Cus_Email = cus_Email;
     }
 
-    public String getCusAddress() {
-        return cusAddress;
+    public String getCus_Address() {
+        return Cus_Address;
     }
 
-    public void setCusAddress(String cusAddress) {
-        this.cusAddress = cusAddress;
+    public void setCus_Address(String cus_Address) {
+        Cus_Address = cus_Address;
     }
 
-    public String getCusSex() {
-        return cusSex;
+    public String getCus_Sex() {
+        return Cus_Sex;
     }
 
-    public void setCusSex(String cusSex) {
-        this.cusSex = cusSex;
+    public void setCus_Sex(String cus_Sex) {
+        Cus_Sex = cus_Sex;
     }
 
-    public String getCusPassword() {
-        return cusPassword;
+    public String getCus_Password() {
+        return Cus_Password;
     }
 
-    public void setCusPassword(String cusPassword) {
-        this.cusPassword = cusPassword;
+    public void setCus_Password(String cus_Password) {
+        Cus_Password = cus_Password;
     }
 
-    public String getCusPhone() {
-        return cusPhone;
+    public String getCus_Phone() {
+        return Cus_Phone;
     }
 
-    public void setCusPhone(String cusPhone) {
-        this.cusPhone = cusPhone;
+    public void setCus_Phone(String cus_Phone) {
+        Cus_Phone = cus_Phone;
     }
 }

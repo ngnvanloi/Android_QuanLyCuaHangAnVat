@@ -1,30 +1,30 @@
 package com.example.quanlycuahangbandoanvat.DTO;
 
 public class Role {
-    private String roleID;
-    private String roleName;
+    private String Role_ID;
+    private String Role_Name;
 
     public Role() {
     }
 
-    public Role(String roleID, String roleName) {
-        this.roleID = roleID;
-        this.roleName = roleName;
+    public Role(String role_ID, String role_Name) {
+        Role_ID = role_ID;
+        Role_Name = role_Name;
     }
 
-    public String getRoleID() {
-        return roleID;
+    public String getRole_ID() {
+        return Role_ID;
     }
 
-    public void setRoleID(String roleID) {
-        this.roleID = roleID;
+    public void setRole_ID(String role_ID) {
+        Role_ID = role_ID;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getRole_Name() {
+        return Role_Name;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setRole_Name(String role_Name) {
+        Role_Name = role_Name;
     }
 }

@@ -1,50 +1,50 @@
 package com.example.quanlycuahangbandoanvat.DTO;
 
 public class CartDetail {
-    private String cartID;
-    private String foodID;
-    private int quantity;
-    private Double totalCart;
+    private String Cart_ID;
+    private String Food_ID;
+    private int Quantity;
+    private Double Total_Cart;
 
     public CartDetail() {
     }
 
-    public CartDetail(String cartID, String foodID, int quantity, Double totalCart) {
-        this.cartID = cartID;
-        this.foodID = foodID;
-        this.quantity = quantity;
-        this.totalCart = totalCart;
+    public CartDetail(String cart_ID, String food_ID, int quantity, Double total_Cart) {
+        Cart_ID = cart_ID;
+        Food_ID = food_ID;
+        Quantity = quantity;
+        Total_Cart = total_Cart;
     }
 
-    public String getCartID() {
-        return cartID;
+    public String getCart_ID() {
+        return Cart_ID;
     }
 
-    public void setCartID(String cartID) {
-        this.cartID = cartID;
+    public void setCart_ID(String cart_ID) {
+        Cart_ID = cart_ID;
     }
 
-    public String getFoodID() {
-        return foodID;
+    public String getFood_ID() {
+        return Food_ID;
     }
 
-    public void setFoodID(String foodID) {
-        this.foodID = foodID;
+    public void setFood_ID(String food_ID) {
+        Food_ID = food_ID;
     }
 
     public int getQuantity() {
-        return quantity;
+        return Quantity;
     }
 
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        Quantity = quantity;
     }
 
-    public Double getTotalCart() {
-        return totalCart;
+    public Double getTotal_Cart() {
+        return Total_Cart;
     }
 
-    public void setTotalCart(Double totalCart) {
-        this.totalCart = totalCart;
+    public void setTotal_Cart(Double total_Cart) {
+        Total_Cart = total_Cart;
     }
 }

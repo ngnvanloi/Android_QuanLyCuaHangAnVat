@@ -3,70 +3,70 @@ package com.example.quanlycuahangbandoanvat.DTO;
 import java.util.Date;
 
 public class Bill {
-    private String billID;
-    private String cusID;
-    private String emplID;
-    private Date orderDate;
-    private Date deliveryOrder;
-    private String billStatus;
+    private String Bill_ID;
+    private String Cus_ID;
+    private String Empl_ID;
+    private Date Order_Date;
+    private Date Delivery_Order;
+    private String Bill_Status;
 
     public Bill() {
     }
 
-    public Bill(String billID, String cusID, String emplID, Date orderDate, Date deliveryOrder, String billStatus) {
-        this.billID = billID;
-        this.cusID = cusID;
-        this.emplID = emplID;
-        this.orderDate = orderDate;
-        this.deliveryOrder = deliveryOrder;
-        this.billStatus = billStatus;
+    public Bill(String bill_ID, String cus_ID, String empl_ID, Date order_Date, Date delivery_Order, String bill_Status) {
+        Bill_ID = bill_ID;
+        Cus_ID = cus_ID;
+        Empl_ID = empl_ID;
+        Order_Date = order_Date;
+        Delivery_Order = delivery_Order;
+        Bill_Status = bill_Status;
     }
 
-    public String getBillID() {
-        return billID;
+    public String getBill_ID() {
+        return Bill_ID;
     }
 
-    public void setBillID(String billID) {
-        this.billID = billID;
+    public void setBill_ID(String bill_ID) {
+        Bill_ID = bill_ID;
     }
 
-    public String getCusID() {
-        return cusID;
+    public String getCus_ID() {
+        return Cus_ID;
     }
 
-    public void setCusID(String cusID) {
-        this.cusID = cusID;
+    public void setCus_ID(String cus_ID) {
+        Cus_ID = cus_ID;
     }
 
-    public String getEmplID() {
-        return emplID;
+    public String getEmpl_ID() {
+        return Empl_ID;
     }
 
-    public void setEmplID(String emplID) {
-        this.emplID = emplID;
+    public void setEmpl_ID(String empl_ID) {
+        Empl_ID = empl_ID;
     }
 
-    public Date getOrderDate() {
-        return orderDate;
+    public Date getOrder_Date() {
+        return Order_Date;
     }
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+    public void setOrder_Date(Date order_Date) {
+        Order_Date = order_Date;
     }
 
-    public Date getDeliveryOrder() {
-        return deliveryOrder;
+    public Date getDelivery_Order() {
+        return Delivery_Order;
     }
 
-    public void setDeliveryOrder(Date deliveryOrder) {
-        this.deliveryOrder = deliveryOrder;
+    public void setDelivery_Order(Date delivery_Order) {
+        Delivery_Order = delivery_Order;
     }
 
-    public String getBillStatus() {
-        return billStatus;
+    public String getBill_Status() {
+        return Bill_Status;
     }
 
-    public void setBillStatus(String billStatus) {
-        this.billStatus = billStatus;
+    public void setBill_Status(String bill_Status) {
+        Bill_Status = bill_Status;
     }
 }

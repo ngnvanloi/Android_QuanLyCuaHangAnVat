@@ -12,7 +12,7 @@ public interface DAOinterface<T> {
 
     public void delete(String t, final CRUDCallback callback);
 
-    public ArrayList<T> selectAll(final OnDataLoadedCallback listener);
+//    public ArrayList<T> selectAll(final OnDataLoadedCallback listener);
 
     public T selectById(String t);
 }
