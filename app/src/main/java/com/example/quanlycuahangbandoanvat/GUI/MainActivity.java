@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.quanlycuahangbandoanvat.Config.InitDatabase;
+import com.example.quanlycuahangbandoanvat.DTO.Customer;
+import com.example.quanlycuahangbandoanvat.DTO.CustomerViewModel;
 import com.example.quanlycuahangbandoanvat.GUI.Interface.OnNavigationLinkClickListener;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Account;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Cart;
@@ -21,6 +25,7 @@ import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Home;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Location;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Login;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Menu;
+import com.example.quanlycuahangbandoanvat.GUI.MainFragment.NoLoginCart;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Option;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Register;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Voucher;
@@ -32,6 +37,8 @@ public class MainActivity extends AppCompatActivity  implements OnNavigationLink
     ImageView imageViewAccountNavigation, imageViewHomeNavigation, imageViewOptionNavigation;
     FrameLayout frameLayoutMainActivity;
    Toolbar toolbar;
+    private CustomerViewModel customerViewModel;
+    Boolean isLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +61,8 @@ public class MainActivity extends AppCompatActivity  implements OnNavigationLink
         // DEFAULT
         bottomNavigationView.setSelectedItemId(R.id.navigation_home); // set default item Home was checked
 
-
+        // CUSTOMER VIEW MODEL
+        customerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);
 
         // TOP NAVIGATION ITEM
         imageViewHomeNavigation.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +88,6 @@ public class MainActivity extends AppCompatActivity  implements OnNavigationLink
             }
         });
 
-
         // BOTTOM NAVIGATION ITEM
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -88,13 +95,17 @@ public class MainActivity extends AppCompatActivity  implements OnNavigationLink
                 int itemID = item.getItemId();
                 if (itemID == R.id.navigation_home) {
                     loadFragment(new Home());
-
                 }
                 else if(itemID == R.id.navigation_voucher) {
                     loadFragment(new Voucher());
                 }
                 else if(itemID == R.id.navigation_cart) {
-                    loadFragment(new Cart());
+                    if(isUserLoggedIn()) {
+                        loadFragment(new Cart());
+                    }
+                    else {
+                        loadFragment(new NoLoginCart());
+                    }
                 }
                 else if(itemID == R.id.navigation_menu) {
                     loadFragment(new Menu());
@@ -108,6 +119,12 @@ public class MainActivity extends AppCompatActivity  implements OnNavigationLink
         });
         loadFragment(new Home());
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     private void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -125,6 +142,7 @@ public class MainActivity extends AppCompatActivity  implements OnNavigationLink
     public void onLoginLinkClicked() {
         loadFragment(new Login());
     }
+
     // Phương thức này được gọi khi TextView "Đăng kí" được click
     public void onRegisterLinkClick(View view) {
         loadFragment(new Register());
@@ -132,10 +150,10 @@ public class MainActivity extends AppCompatActivity  implements OnNavigationLink
     public void onLoginLinkClick(View view) {
         loadFragment(new Login());
     }
-    private boolean isUserLoggedIn() {
-        // Kiểm tra xem người dùng đã đăng nhập hay chưa
-        // Trả về true nếu đã đăng nhập, ngược lại trả về false
-        return false;
-    }
 
+    private boolean isUserLoggedIn() {
+        // kiểm tra customer view model có null không
+        Customer customer = customerViewModel.getCustomer().getValue();
+        return customer != null;
+    }
 }

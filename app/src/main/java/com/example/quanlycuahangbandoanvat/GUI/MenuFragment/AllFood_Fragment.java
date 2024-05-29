@@ -76,11 +76,9 @@ public class AllFood_Fragment extends Fragment {
             @Override
             public void onDataLoaded(ArrayList<Food> Foods) {
                 listFood.addAll(Foods);
-
                 // init list view
                 customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, listFood);
                 listViewAllFood.setAdapter(customAdapterFood);
-
             }
 
             @Override

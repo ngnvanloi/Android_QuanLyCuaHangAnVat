@@ -3,6 +3,7 @@ package com.example.quanlycuahangbandoanvat.BUS;
 import com.example.quanlycuahangbandoanvat.DTO.Food;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class FoodBUS {
     private ArrayList<Food> listFood = new ArrayList<>();
@@ -75,5 +76,14 @@ public class FoodBUS {
             }
         }
         return result;
+    }
+    public ArrayList<Food> getRandomFoods(int numRandomFoods) {
+        if (numRandomFoods <= 0 || numRandomFoods > this.listFood.size()) {
+            throw new IllegalArgumentException("Number of random foods must be between 1 and the size of the list.");
+        }
+
+        ArrayList<Food> result = new ArrayList<>(this.listFood);
+        Collections.shuffle(result);
+        return new ArrayList<>(result.subList(0, numRandomFoods));
     }
 }

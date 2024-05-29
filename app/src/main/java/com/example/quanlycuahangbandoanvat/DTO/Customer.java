@@ -1,6 +1,8 @@
 package com.example.quanlycuahangbandoanvat.DTO;
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer  implements Serializable {
     private String Cus_ID;
     private String Cus_Name;
     private String Cus_Email;

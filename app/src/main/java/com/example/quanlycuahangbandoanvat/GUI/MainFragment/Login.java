@@ -1,17 +1,37 @@
 package com.example.quanlycuahangbandoanvat.GUI.MainFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterListViewFood;
+import com.example.quanlycuahangbandoanvat.BUS.CustomerBUS;
+import com.example.quanlycuahangbandoanvat.BUS.FoodBUS;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackCustomer;
+import com.example.quanlycuahangbandoanvat.DAO.CustomerDAO;
+import com.example.quanlycuahangbandoanvat.DAO.FoodDAO;
+import com.example.quanlycuahangbandoanvat.DTO.Customer;
+import com.example.quanlycuahangbandoanvat.DTO.CustomerViewModel;
+import com.example.quanlycuahangbandoanvat.DTO.Food;
 import com.example.quanlycuahangbandoanvat.GUI.Interface.OnNavigationLinkClickListener;
+import com.example.quanlycuahangbandoanvat.GUI.MainActivity;
 import com.example.quanlycuahangbandoanvat.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,14 +81,79 @@ public class Login extends Fragment {
 
     }
 
+    //
+    private CustomerViewModel customerViewModel;
+    Button btnLogin;
+    EditText edtEmail, edtPass;
+    CustomerBUS customerBUS = new CustomerBUS();
+    CustomerDAO customerDAO = new CustomerDAO();
+    ArrayList<Customer> listCustomer= new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        customerViewModel = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
+        btnLogin = getView().findViewById(R.id.btnLogin);
+        edtEmail = getView().findViewById(R.id.edtEmailAddress);
+        edtPass = getView().findViewById(R.id.edtPassword);
+        customerViewModel = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
+
+        // lấy tất cả danh sách khách hàng
+        customerDAO.selectAll(new OnDataLoadedCallbackCustomer() {
+            @Override
+            public void onDataLoaded(ArrayList<Customer> t) {
+                listCustomer.addAll(t);
+                customerBUS = new CustomerBUS(listCustomer);
+                // button login
+                btnLogin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String email = edtEmail.getText().toString();
+                        String pass = edtPass.getText().toString();
+                        if(checkValidation(email, pass)) {
+                            // kiểm tra đăng nhập
+                            Customer customerLogin = customerBUS.getCustomerByEmailPassword(email, pass);
+                            if(customerLogin != null) {
+                                // Lưu trữ Customer vào ViewModel
+                                customerViewModel.setCustomer(customerLogin);
+                                //System.out.println(customerViewModel.getCustomer().getCus_ID());
+                                Toast.makeText(getContext(), "Login successfully !", Toast.LENGTH_SHORT).show();
+
+                                // replace Login Fragment from Account Fragment in MainActivity
+                                loadFragmentAccount();
+
+                            }
+                            else {
+                                Toast.makeText(getContext(), "Login unsuccessfully, please check Email or Password !", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Please fill out all information", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+    public boolean checkValidation(String email, String password){
+        if(email.isEmpty() || password.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
 
     // THỰC HIỆN CHUYỂN HƯỚNG KHI CLICK VÀO LINK REGISTER (Bạn chưa có tài khoản? Đăng kí)
     private OnNavigationLinkClickListener navigationLinkClickListener;
@@ -89,5 +174,12 @@ public class Login extends Fragment {
         if (navigationLinkClickListener != null) {
             navigationLinkClickListener.onRegisterLinkClicked();
         }
+    }
+
+    private void loadFragmentAccount() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.FrameLayoutMainActivity, new Account());
+        fragmentTransaction.commit();
     }
 }
