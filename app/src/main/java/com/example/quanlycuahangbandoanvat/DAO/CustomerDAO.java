@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 
 import com.example.quanlycuahangbandoanvat.DAO.Callback.CRUDCallback;
 import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackCustomer;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackFood;
 import com.example.quanlycuahangbandoanvat.DTO.Customer;
+import com.example.quanlycuahangbandoanvat.DTO.Food;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -26,21 +28,19 @@ public class CustomerDAO implements DAOinterface<Customer>{
         this.CustomerCollection = firestore.collection("customer");
     }
     @Override
-    public void insert(Customer Customer, final CRUDCallback callback) {
-        final boolean[] check = {false};
-        if (Customer != null) {
+    public void insert(Customer customer, final CRUDCallback callback) {
+        if (customer != null) {
             // Add data to Firebase Store
-            firestore.collection("customer").add(Customer).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            firestore.collection("customer").add(customer).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentReference> task) {
                     if (task.isSuccessful()) {
-                        check[0] = true;
                         String idForField = task.getResult().getId(); // Lấy ID của tài liệu mới được thêm vào
-                        Customer.setCus_ID(idForField); // Thiết lập ID cho đối tượng Customer
+                        customer.setCus_ID(idForField); // Thiết lập ID cho đối tượng Customer
 
                         // Update the document to set the "Customer_ID" field
                         String documentId = task.getResult().getId();
-                        firestore.collection("customer").document(documentId).update("Cus_ID", idForField)
+                        firestore.collection("customer").document(documentId).update("cus_ID", idForField)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> updateTask) {
@@ -52,7 +52,6 @@ public class CustomerDAO implements DAOinterface<Customer>{
                                     }
                                 });
                     } else {
-                        check[0] = false;
                         callback.onCRUDComplete(0);
                     }
                 }
@@ -112,19 +111,18 @@ public class CustomerDAO implements DAOinterface<Customer>{
                     }
                     listener.onDataLoaded(listCustomer); // Gửi kết quả về qua callback
                 } else {
-                    listener.onError(null); // Trường hợp không thành công
+                    listener.onError("Get list unsuccessfully"); // Trường hợp không thành công
                 }
             }
         });
         return  listCustomer;
     }
 
+
     @Override
     public Customer selectById(String t) {
-        //FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference CustomerRef = firestore.collection("customer").document(t);
         final Customer[] Customer = {new Customer()};
-
         CustomerRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

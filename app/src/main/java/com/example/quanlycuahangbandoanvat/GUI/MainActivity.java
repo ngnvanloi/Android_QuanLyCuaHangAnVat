@@ -6,9 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity  implements OnNavigationLink
 
         // CUSTOMER VIEW MODEL
         customerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);
+
 
         // TOP NAVIGATION ITEM
         imageViewHomeNavigation.setOnClickListener(new View.OnClickListener() {
@@ -152,8 +156,20 @@ public class MainActivity extends AppCompatActivity  implements OnNavigationLink
     }
 
     private boolean isUserLoggedIn() {
-        // kiểm tra customer view model có null không
+        boolean result;
+        String currentCustomerID = getCustomerIDFromSharedReferences();
         Customer customer = customerViewModel.getCustomer().getValue();
-        return customer != null;
+        if(!currentCustomerID.isEmpty() || customer != null) {
+            result = true;
+        }
+        else {
+            result = false;
+        }
+        return result;
+    }
+    private String getCustomerIDFromSharedReferences(){
+        SharedPreferences sharedPref =  getPreferences(Context.MODE_PRIVATE);
+        String currentCustomerID = sharedPref.getString("current_customer_id", "");
+        return currentCustomerID;
     }
 }

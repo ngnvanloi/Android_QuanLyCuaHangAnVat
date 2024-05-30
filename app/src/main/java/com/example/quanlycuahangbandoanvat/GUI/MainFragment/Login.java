@@ -2,6 +2,8 @@ package com.example.quanlycuahangbandoanvat.GUI.MainFragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterFragmentAccount;
 import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterListViewFood;
 import com.example.quanlycuahangbandoanvat.BUS.CustomerBUS;
 import com.example.quanlycuahangbandoanvat.BUS.FoodBUS;
@@ -30,6 +34,7 @@ import com.example.quanlycuahangbandoanvat.DTO.Food;
 import com.example.quanlycuahangbandoanvat.GUI.Interface.OnNavigationLinkClickListener;
 import com.example.quanlycuahangbandoanvat.GUI.MainActivity;
 import com.example.quanlycuahangbandoanvat.R;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
@@ -38,7 +43,7 @@ import java.util.ArrayList;
  * Use the {@link Login#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Login extends Fragment {
+public class Login extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -88,6 +93,7 @@ public class Login extends Fragment {
     CustomerBUS customerBUS = new CustomerBUS();
     CustomerDAO customerDAO = new CustomerDAO();
     ArrayList<Customer> listCustomer= new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,7 +110,7 @@ public class Login extends Fragment {
         edtPass = getView().findViewById(R.id.edtPassword);
         customerViewModel = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
 
-        // lấy tất cả danh sách khách hàng
+        // lấy tất cả danh sách khách hàng và kiểm tra đăng nhập
         customerDAO.selectAll(new OnDataLoadedCallbackCustomer() {
             @Override
             public void onDataLoaded(ArrayList<Customer> t) {
@@ -123,12 +129,16 @@ public class Login extends Fragment {
                             if(customerLogin != null) {
                                 // Lưu trữ Customer vào ViewModel
                                 customerViewModel.setCustomer(customerLogin);
-                                //System.out.println(customerViewModel.getCustomer().getCus_ID());
+                                // lưu vào Shared References
+                                SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString("current_customer_id", customerLogin.getCus_ID());
+                                editor.putString("current_customer_name", customerLogin.getCus_Name());
+                                editor.apply();
+                                // hiển thị thông báo
                                 Toast.makeText(getContext(), "Login successfully !", Toast.LENGTH_SHORT).show();
-
                                 // replace Login Fragment from Account Fragment in MainActivity
                                 loadFragmentAccount();
-
                             }
                             else {
                                 Toast.makeText(getContext(), "Login unsuccessfully, please check Email or Password !", Toast.LENGTH_SHORT).show();
@@ -147,6 +157,8 @@ public class Login extends Fragment {
 
             }
         });
+
+
     }
     public boolean checkValidation(String email, String password){
         if(email.isEmpty() || password.isEmpty()) {
@@ -181,5 +193,10 @@ public class Login extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.FrameLayoutMainActivity, new Account());
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

@@ -1,17 +1,38 @@
 package com.example.quanlycuahangbandoanvat.GUI.MainFragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
+import com.example.quanlycuahangbandoanvat.BUS.CustomerBUS;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.CRUDCallback;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackCustomer;
+import com.example.quanlycuahangbandoanvat.DAO.CustomerDAO;
+import com.example.quanlycuahangbandoanvat.DTO.Customer;
+import com.example.quanlycuahangbandoanvat.DTO.CustomerViewModel;
 import com.example.quanlycuahangbandoanvat.GUI.Interface.OnNavigationLinkClickListener;
+import com.example.quanlycuahangbandoanvat.Helper.Formatter;
+import com.example.quanlycuahangbandoanvat.Helper.Validation;
 import com.example.quanlycuahangbandoanvat.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -86,5 +107,112 @@ public class Register extends Fragment {
         if (navigationLinkClickListener != null) {
             navigationLinkClickListener.onLoginLinkClicked();
         }
+    }
+
+    private CustomerViewModel customerViewModel;
+    Button btnRegister;
+    CustomerBUS customerBUS = new CustomerBUS();
+    CustomerDAO customerDAO = new CustomerDAO();
+    ArrayList<Customer> listCustomer= new ArrayList<>();
+    EditText edtName, edtEmail, edtPass, edtAddr, edtPhone;
+    CheckBox checkBox;
+    RadioButton rdoMale, rdoFemale;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // ánh xạ ID
+        btnRegister = view.findViewById(R.id.btnRegister);
+        edtName = view.findViewById(R.id.edtRegName);
+        edtEmail = view.findViewById(R.id.edtRegEmail);
+        edtAddr = view.findViewById(R.id.edtRegAddress);
+        edtPass = view.findViewById(R.id.edtRegPassword);
+        edtPhone = view.findViewById(R.id.edtRegPhone);
+        rdoFemale = view.findViewById(R.id.rdoRegFemale);
+        rdoMale = view.findViewById(R.id.rdoRegMale);
+        checkBox = view.findViewById(R.id.cbRegChinhSach);
+        customerViewModel = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
+
+        // default Button Register
+        btnRegister.setEnabled(true);
+        btnRegister.setBackgroundColor(getResources().getColor(R.color.gray100));
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    btnRegister.setEnabled(true);
+                    btnRegister.setBackgroundColor(getResources().getColor(R.color.red));
+                } else {
+                    btnRegister.setEnabled(false);
+                    btnRegister.setBackgroundColor(getResources().getColor(R.color.gray100));
+                }
+            }
+        });
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = edtName.getText().toString();
+                String gender = "";
+                if(rdoMale.isChecked()) {
+                    gender = "Nam";
+                }
+                if(rdoFemale.isChecked()){
+                    gender = "Nữ";
+                }
+                String address = edtAddr.getText().toString();
+                String phone = edtPhone.getText().toString();
+                String email = edtEmail.getText().toString();
+                String password = edtPass.getText().toString();
+                if(checkFillOutInformation(name, gender, address, phone,email,password)) {
+                    if(!Validation.isEmail(email)) {
+                        Toast.makeText(getContext(), "Invalid email, try another one", Toast.LENGTH_SHORT).show();
+                    } else if(!Validation.isValidPhoneNumber(phone)) {
+                        Toast.makeText(getContext(), "Invalid number phone, try another one", Toast.LENGTH_SHORT).show();
+                    } else if(!Validation.isValidPassword(password)) {
+                        Toast.makeText(getContext(), "Password must require 8 characters, uppercase, lowercase, number and special characters, try another one", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Customer customer = new Customer(null, name, email, address, gender, password, phone);
+
+                        customerDAO.insert(customer, new CRUDCallback() {
+                            @Override
+                            public void onCRUDComplete(int result) {
+                                if(result == 1) {
+                                    Toast.makeText(getContext(), "Register successfully, your are here now by your account", Toast.LENGTH_SHORT).show();
+                                    // lưu customer view model
+                                    customerViewModel.setCustomer(customer);
+                                    // lưu vào Shared References
+                                    SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString("current_customer_id", customer.getCus_ID());
+                                    editor.putString("current_customer_name", customer.getCus_Name());
+                                    editor.apply();
+                                    // load fragment
+                                    loadFragmentHome();
+
+                                }
+                                else {
+                                    Toast.makeText(getContext(), "Opps, something went wrong, register unsuccessfully, please try again", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                }
+                else {
+                    Toast.makeText(getContext(), "Please fill out all information", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public boolean checkFillOutInformation(String name, String gender, String address, String phone, String email, String password){
+        if(email.isEmpty() || password.isEmpty() || name.isEmpty() || gender.isEmpty() || address.isEmpty() || phone.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+    private void loadFragmentHome() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.FrameLayoutMainActivity, new Home());
+        fragmentTransaction.commit();
     }
 }
