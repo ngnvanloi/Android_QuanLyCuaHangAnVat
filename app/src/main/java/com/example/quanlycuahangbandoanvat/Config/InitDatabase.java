@@ -32,7 +32,7 @@ public class InitDatabase {
         int[] jsonFiles = {
                // R.raw.role,
                // R.raw.bill,
-               // R.raw.bill_detail,
+               R.raw.bill_detail,
                 //R.raw.cart,
                  // R.raw.cart_detail,
                // R.raw.category,

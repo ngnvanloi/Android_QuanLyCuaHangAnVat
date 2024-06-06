@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.quanlycuahangbandoanvat.Config.InitDatabase;
 import com.example.quanlycuahangbandoanvat.DTO.Customer;
 import com.example.quanlycuahangbandoanvat.DTO.CustomerViewModel;
 import com.example.quanlycuahangbandoanvat.GUI.CartFragment.CartEmptyFragment;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements OnNavigationLinkC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        InitDatabase initDatabase = new InitDatabase(this);
+//        initDatabase.initData();
 
         // View Binding
         bottomNavigationView = findViewById(R.id.BottomNavigation);
