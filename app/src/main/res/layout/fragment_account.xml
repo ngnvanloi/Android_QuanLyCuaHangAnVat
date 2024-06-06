@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".GUI.MainFragment.Account">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/layoutHeading"
+            android:layout_height="200dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@color/gray"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/profile_circle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="match_parent"
+                    android:textSize="28dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"
+                    android:text="XIN CHÀO," />
+
+                <TextView
+                    android:id="@+id/tvYourName"
+                    android:layout_width="match_parent"
+                    android:textSize="22dp"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="1dp"
+                    android:layout_height="wrap_content"
+                    android:text="Nguyễn Văn Lợi" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            app:layout_constraintTop_toBottomOf="@id/layoutHeading"
+            app:tabSelectedTextColor="@color/white"
+            android:layout_width="match_parent"
+            android:background="@color/gray"
+            app:tabTextColor="@color/tab_text_color_account"
+            app:tabIndicatorColor="@color/red"
+            app:tabGravity="fill"
+            app:tabMode="scrollable"
+            android:layout_height="wrap_content" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/viewPager"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/imageView5"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:scaleType="fitXY"-->
+<!--                android:src="@drawable/register" />-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:paddingLeft="15dp"-->
+<!--                android:paddingRight="15dp"-->
+<!--                android:paddingBottom="40dp"-->
+<!--                android:background="@color/black"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView15"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="16dp"-->
+<!--                    android:layout_marginTop="20dp"-->
+<!--                    android:layout_marginBottom="0dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="LIÊN HỆ VỚI CHÚNG TÔI" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:paddingTop="25dp"-->
+<!--                        android:paddingBottom="25dp">-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/imageView2"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginLeft="10dp"-->
+<!--                            android:layout_marginRight="10dp"-->
+<!--                            app:srcCompat="@drawable/facebook" />-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/imageView3"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginLeft="10dp"-->
+<!--                            android:layout_marginRight="10dp"-->
+<!--                            app:srcCompat="@drawable/instagram" />-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/imageView4"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginLeft="10dp"-->
+<!--                            android:layout_marginRight="10dp"-->
+<!--                            app:srcCompat="@drawable/twitter" />-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/imageView6"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginLeft="10dp"-->
+<!--                            android:layout_marginRight="10dp"-->
+<!--                            app:srcCompat="@drawable/youtube" />-->
+
+<!--                    </LinearLayout>-->
+<!--                </LinearLayout>-->
+
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:background="@android:color/darker_gray"/>-->
+<!--                <TextView-->
+<!--                    android:id="@+id/textView8"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="20dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:text="Bản quyền @2024 KFC Việt Nam" />-->
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="2dp"-->
+<!--                    android:background="@android:color/darker_gray"/>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:padding="14dp"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView9"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="25dp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:layout_marginBottom="20dp"-->
+<!--                        android:text="CÔNG TY LIÊN DOANH TNHH KFC VIỆT NAM" />-->
+
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView11"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:text="140 Lê Trọng Tấn, Tây Thạnh, Tân Phú, Hồ Chí Minh" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView12"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:text="Điện thoại: (028) 38489828" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView13"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:text="Thư điện tử: lienhe@kfcvietnam.com.vn" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView14"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:text="Mã số thuế: 0100773885" />-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView10"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:text="Ngày cấp: 29/10/1998 - Nơi cấp: Cục Thuế TP Hồ Chí Minh" />-->
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</FrameLayout>
