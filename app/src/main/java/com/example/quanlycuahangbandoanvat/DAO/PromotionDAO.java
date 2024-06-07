@@ -43,7 +43,7 @@ public class PromotionDAO implements DAOinterface<Promotion>{
 
                         // Update the document to set the "Food_ID" field
                         String documentId = task.getResult().getId();
-                        firestore.collection("promotion").document(documentId).update("Food_Promotion_ID", idForField)
+                        firestore.collection("promotion").document(documentId).update("food_Promotion_ID", idForField)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> updateTask) {
@@ -102,45 +102,24 @@ public class PromotionDAO implements DAOinterface<Promotion>{
         });
     }
 
-
-//    public ArrayList<Promotion> selectAll(final OnDataLoadedCallbackPromotion listener) {
-//        final ArrayList<Promotion> listPromotion = new ArrayList<>();
-//        this.promotionCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                        Promotion promotion = document.toObject(Promotion.class);
-//                        listPromotion.add(promotion);
-//                    }
-//                    listener.onDataLoaded(listPromotion); // Gửi kết quả về qua callback
-//                } else {
-//                    listener.onError(null); // Trường hợp không thành công
-//                }
-//            }
-//        });
-//        return  listPromotion;
-//    }
-
-
-    public void selectAll(final OnDataLoadedCallbackPromotion listener) {
-        this.promotionCollection.whereEqualTo("IsDeleted", false).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    public ArrayList<Promotion> selectAll(final OnDataLoadedCallbackPromotion listener) {
+        final ArrayList<Promotion> listPromotion = new ArrayList<>();
+        this.promotionCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    ArrayList<Promotion> listPromotion = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Promotion promotion = document.toObject(Promotion.class);
                         listPromotion.add(promotion);
                     }
                     listener.onDataLoaded(listPromotion); // Gửi kết quả về qua callback
                 } else {
-                    listener.onError(task.getException().getMessage()); // Trường hợp không thành công
+                    listener.onError(null); // Trường hợp không thành công
                 }
             }
         });
+        return  listPromotion;
     }
-
 
     @Override
     public Promotion selectById(String t) {
@@ -186,6 +165,5 @@ public class PromotionDAO implements DAOinterface<Promotion>{
             }
         });
     }
-
 
 }

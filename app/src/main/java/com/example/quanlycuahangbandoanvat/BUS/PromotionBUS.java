@@ -59,34 +59,17 @@ public class PromotionBUS {
         return vitri;
     }
 
-    public ArrayList<Promotion> search(String text) {
-        text = text.toLowerCase();
-        ArrayList<Promotion> result = new ArrayList<>();
-        for (Promotion i : this.listPromotion) {
-            if (i.getPromotion_Name().toLowerCase().contains(text)) {
-                result.add(i);
-            }
-        }
-        return result;
-    }
-    public ArrayList<Promotion> getRandomPromotion(int numRandomFoods) {
-        if (numRandomFoods <= 0 || numRandomFoods > this.listPromotion.size()) {
-            throw new IllegalArgumentException("Number of random Promotion must be between 1 and the size of the list.");
-        }
-
-        ArrayList<Promotion> result = new ArrayList<>(this.listPromotion);
-        Collections.shuffle(result);
-        return new ArrayList<>(result.subList(0, numRandomFoods));
-    }
-    public ArrayList<Promotion> getPromotionByFalse() {
+    public ArrayList<Promotion> getListPromotionAvailablity() {
         ArrayList<Promotion> newPromotion=new ArrayList<>();
-        for (Promotion Item :this.listPromotion)
+        for (Promotion Item : this.listPromotion)
         {
-            if(Item.isDeleted()==false)
+            long millisecondsUntilEnd = Item.getDate_End().getTime() - System.currentTimeMillis();
+            if(millisecondsUntilEnd > 0)
             {
                 newPromotion.add(Item);
             }
         }
         return  newPromotion;
     }
+
 }

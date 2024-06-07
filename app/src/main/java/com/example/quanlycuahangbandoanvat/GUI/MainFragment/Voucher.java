@@ -103,7 +103,7 @@ public class Voucher extends Fragment {
                 listPromotion.addAll(promotions);
                 promotionBUS = new PromotionBUS(listPromotion);
 
-                customAdapterPromotion = new CustomAdapterListViewPromotion(getContext(), R.layout.layout_item_sale,  promotionBUS.getPromotionByFalse());
+                customAdapterPromotion = new CustomAdapterListViewPromotion(getContext(), R.layout.layout_item_sale,  promotionBUS.getListPromotionAvailablity());
                 listViewSale.setAdapter(customAdapterPromotion);
                 customAdapterPromotion.notifyDataSetChanged();
             }

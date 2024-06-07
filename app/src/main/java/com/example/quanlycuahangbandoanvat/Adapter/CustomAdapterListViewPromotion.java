@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.quanlycuahangbandoanvat.DTO.Promotion;
+import com.example.quanlycuahangbandoanvat.Helper.Formatter;
 import com.example.quanlycuahangbandoanvat.R;
 
 import java.text.NumberFormat;
@@ -62,13 +63,11 @@ public class CustomAdapterListViewPromotion extends ArrayAdapter {
         tvName.setText(promotion.getPromotion_Name());
 
         TextView tvPrice = convertView.findViewById(R.id.tvPromotionDiscountAmount);
-        int discountAmount = (int) Math.round(promotion.getDiscount_Amount());
-        tvPrice.setText("Giảm giá: " + discountAmount + "%");
 
-        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")); // định dạng tiền tệ cho Việt Nam
-        String formattedTotalMin = format.format(promotion.getTotal_min());
+        tvPrice.setText("Giảm giá: " + Formatter.FormatVND(promotion.getDiscount_Amount()));
+
         TextView tvPromotionLimitedQuantity = convertView.findViewById(R.id.tvPromotionTotalMin);
-        tvPromotionLimitedQuantity.setText("Điều kiện: Hóa đơn có trị giá từ " + formattedTotalMin);
+        tvPromotionLimitedQuantity.setText("Điều kiện: Hóa đơn có trị giá từ " + Formatter.FormatVND(promotion.getTotal_min()));
 
         // Thêm tính năng đếm ngược thời gian cho tvPromotionCountdown
         TextView tvPromotionCountdown = convertView.findViewById(R.id.tvPromotionCountdown);
@@ -85,8 +84,12 @@ public class CustomAdapterListViewPromotion extends ArrayAdapter {
                     millisUntilFinished -= TimeUnit.MINUTES.toMillis(minutes);
                     long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
 
-                    String timeRemaining = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+                    int days = (int) (hours / 24);
+                    int remainingHours = (int) (hours % 24);
+
+                    String timeRemaining = String.format("%02d ngày %02d:%02d:%02d", days, remainingHours, minutes, seconds);
                     tvPromotionCountdown.setText("Thời gian còn lại: " + timeRemaining);
+
                 }
 
                 public void onFinish() {
