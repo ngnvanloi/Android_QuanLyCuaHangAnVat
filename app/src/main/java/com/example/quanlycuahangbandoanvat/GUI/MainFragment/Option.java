@@ -1,14 +1,28 @@
 package com.example.quanlycuahangbandoanvat.GUI.MainFragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterFragmentNotification;
+import com.example.quanlycuahangbandoanvat.BUS.NotificationBUS;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackNotification;
+import com.example.quanlycuahangbandoanvat.DAO.NotificationDAO;
+import com.example.quanlycuahangbandoanvat.DTO.Notification;
 import com.example.quanlycuahangbandoanvat.R;
+
+import java.util.ArrayList;
 
 
 /**
@@ -64,4 +78,48 @@ public class Option extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_option, container, false);
     }
+
+    NotificationBUS notificationBUS = new NotificationBUS();
+    NotificationDAO notificationDAO = new NotificationDAO();
+    ArrayList<Notification> listNotification = new ArrayList<>();
+    ArrayList<Notification> listCustomerNotification = new ArrayList<>();
+    CustomAdapterFragmentNotification adapterFragmentNotification;
+    ListView listViewNotification;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // ánh xạ ID
+        listViewNotification = view.findViewById(R.id.listViewNotification);
+
+        // get Customer_ID
+        String Customer_ID = getCustomerIDFromSharedReferences();
+        // hiển thị thông báo
+        notificationDAO.selectAll(new OnDataLoadedCallbackNotification() {
+            @Override
+            public void onDataLoaded(ArrayList<Notification> t) {
+                listNotification.addAll(t);
+                notificationBUS = new NotificationBUS(listNotification);
+                adapterFragmentNotification = new CustomAdapterFragmentNotification(getContext(), R.layout.layout_notification_item, notificationBUS.getListNotificationByCustomerID(Customer_ID));
+                listViewNotification.setAdapter(adapterFragmentNotification);
+                adapterFragmentNotification.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onDataLoadedSingle(Notification t) {
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
+    private String getCustomerIDFromSharedReferences(){
+        SharedPreferences sharedPref =  requireActivity().getPreferences(Context.MODE_PRIVATE);
+        String currentCustomerID = sharedPref.getString("current_customer_id", "");
+        return currentCustomerID;
+    }
+
 }
