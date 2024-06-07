@@ -63,6 +63,17 @@ public class FoodBUS {
         return vitri;
     }
 
+//    public ArrayList<Food> search(String text) {
+//        text = text.toLowerCase();
+//        ArrayList<Food> result = new ArrayList<>();
+//        for (Food i : this.listFood) {
+//            if (i.getFood_Name().toLowerCase().contains(text)) {
+//                result.add(i);
+//            }
+//        }
+//        return result;
+//    }
+
     public ArrayList<Food> search(String text) {
         text = text.toLowerCase();
         ArrayList<Food> result = new ArrayList<>();

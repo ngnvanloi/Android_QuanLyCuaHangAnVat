@@ -1,14 +1,24 @@
 package com.example.quanlycuahangbandoanvat.GUI.MenuFragment;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,41 +66,83 @@ public class AllFood_Fragment extends Fragment {
 
     // khai báo biến
     ListView listViewAllFood;
+    EditText edt_search;
     FoodBUS foodBUS = new FoodBUS();
     CustomAdapterListViewFood customAdapterFood;
     FoodDAO foodDAO = new FoodDAO();
     ArrayList<Food> listFood = new ArrayList<>();
+    private ArrayList<Food> originalListFood = new ArrayList<>();
     TextView tv;
 
     int selectedPosition = -1;
+    private Runnable searchRunnable;
+    private Handler handler = new Handler();
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // ánh xạ ID
-        listViewAllFood = (view).findViewById(R.id.listViewAllFood);
+        // Ánh xạ ID
+        listViewAllFood = view.findViewById(R.id.listViewAllFood);
+        edt_search = view.findViewById(R.id.timkiemmonan);
 
-
-        // innit array list Food
+        // Init array list Food
         foodDAO.selectAll(new OnDataLoadedCallbackFood() {
             @Override
             public void onDataLoaded(ArrayList<Food> Foods) {
-                listFood.addAll(Foods);
-                // init list view
-                customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, listFood);
+                foodBUS = new FoodBUS(Foods);
+                customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, Foods);
                 listViewAllFood.setAdapter(customAdapterFood);
+
+                // Tìm kiếm món ăn
+                // Lắng nghe sự thay đổi của EditText
+                edt_search.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        // Không cần xử lý trước khi văn bản thay đổi
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        // Hủy bỏ runnable trước đó nếu người dùng tiếp tục nhập văn bản
+                        if (searchRunnable != null) {
+                            handler.removeCallbacks(searchRunnable);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        // Tạo một runnable để thực hiện tìm kiếm sau một khoảng thời gian ngắn
+                        searchRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                String query = s.toString();
+                                listFood = foodBUS.search(query);
+                                customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, listFood);
+                                listViewAllFood.setAdapter(customAdapterFood);
+                                customAdapterFood.notifyDataSetChanged();
+                            }
+                        };
+                        // Thực hiện runnable sau 1-2 giây (1000-2000 milliseconds)
+                        handler.postDelayed(searchRunnable, 1000); // 1500 milliseconds = 1.5 giây
+                    }
+                });
             }
 
             @Override
             public void onError(String errorMessage) {
-
+                // Xử lý lỗi nếu có
             }
         });
-
-        // init list view
-//        loadArrayListFood();
-//        customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, listFood);
-//        listViewAllFood.setAdapter(customAdapterFood);
     }
+
+    // Hàm cập nhật ListView với kết quả tìm kiếm
+    private void updateListView(ArrayList<Food> searchResults) {
+        listFood.clear();
+        listFood.addAll(searchResults);
+        customAdapterFood.notifyDataSetChanged();
+    }
+
+
+
 
     public void loadArrayListFood(){
         foodDAO.selectAll(new OnDataLoadedCallbackFood() {
