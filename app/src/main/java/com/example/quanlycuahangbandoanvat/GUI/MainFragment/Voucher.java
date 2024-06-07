@@ -100,12 +100,12 @@ public class Voucher extends Fragment {
         promotionDAO.selectAll(new OnDataLoadedCallbackPromotion() {
             @Override
             public void onDataLoaded(ArrayList<Promotion> promotions) {
-
                 listPromotion.addAll(promotions);
                 promotionBUS = new PromotionBUS(listPromotion);
 
                 customAdapterPromotion = new CustomAdapterListViewPromotion(getContext(), R.layout.layout_item_sale,  promotionBUS.getPromotionByFalse());
                 listViewSale.setAdapter(customAdapterPromotion);
+                customAdapterPromotion.notifyDataSetChanged();
             }
 
             @Override

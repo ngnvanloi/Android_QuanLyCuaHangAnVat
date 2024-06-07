@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.quanlycuahangbandoanvat.Config.InitDatabase;
 import com.example.quanlycuahangbandoanvat.DTO.Customer;
 import com.example.quanlycuahangbandoanvat.DTO.CustomerViewModel;
@@ -58,6 +59,13 @@ public class MainActivity extends AppCompatActivity implements OnNavigationLinkC
         imageViewAccountNavigation = findViewById(R.id.imageViewAccountNavigation);
         imageViewOptionNavigation = findViewById(R.id.imageViewOptionNavigation);
         toolbar = findViewById(R.id.toolbar);
+
+        // notification icon
+        Glide.with(this)
+                .load(R.drawable.notification_animated_1)
+                .placeholder(R.drawable.notification_static_1)
+                .error(R.drawable.notification_static_1)
+                .into(imageViewOptionNavigation);
 
         // Customer ViewModel
         customerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);

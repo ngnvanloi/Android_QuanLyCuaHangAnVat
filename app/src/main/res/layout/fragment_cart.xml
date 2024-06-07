@@ -163,55 +163,67 @@
                                 android:id="@+id/textView22"
                                 android:background="#ADB1B5"
                                 android:layout_width="match_parent"
-                                android:layout_marginTop="10dp"
+                                android:layout_margin="10dp"
                                 android:layout_height="0.6dp" />
 
                             <TextView
                                 android:id="@+id/textView23"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
+                                android:layout_margin="10dp"
                                 android:textStyle="bold"
                                 android:textColor="@color/black"
                                 android:textSize="16dp"
                                 android:text="Bạn có Mã giảm giá ?" />
 
-                            <androidx.cardview.widget.CardView
+<!--                            <androidx.cardview.widget.CardView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_margin="10dp"-->
+<!--                                app:cardElevation="4dp"-->
+<!--                                app:cardCornerRadius="8dp"-->
+<!--                                app:cardBackgroundColor="@color/white">-->
+<!--                                -->
+<!--                            </androidx.cardview.widget.CardView>-->
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_margin="10dp"
-                                app:cardElevation="4dp"
-                                app:cardCornerRadius="8dp"
-                                app:cardBackgroundColor="@color/white">
-                                <LinearLayout
-                                    android:layout_width="match_parent"
+                                android:orientation="horizontal">
+                                <EditText
+                                    android:id="@+id/edtMaGiamGia"
+                                    android:layout_width="0dp"
                                     android:layout_height="match_parent"
-                                    android:orientation="horizontal">
-                                    <EditText
-                                        android:id="@+id/edtMaGiamGia"
-                                        android:layout_width="0dp"
-                                        android:layout_height="match_parent"
-                                        android:layout_weight="1"
-                                        android:ems="10"
-                                        android:layout_marginLeft="5dp"
-                                        android:hint="Mã giảm giá*"
-                                        android:inputType="textPersonName" />
-                                    <Button
-                                        android:id="@+id/btnApplyGiamGia"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginRight="3dp"
-                                        android:textColor="@color/white"
-                                        android:textStyle="bold"
-                                        android:backgroundTint="@color/black"
-                                        android:text="apply" />
-                                </LinearLayout>
-                            </androidx.cardview.widget.CardView>
+                                    android:layout_weight="1"
+                                    android:ems="10"
+                                    android:hint="Mã giảm giá*"
+                                    android:inputType="textPersonName" />
+<!--                                <Button-->
+<!--                                    android:id="@+id/btnApplyGiamGia"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="match_parent"-->
+
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:textStyle="bold"-->
+<!--                                    android:backgroundTint="@color/black"-->
+<!--                                    android:text="apply" />-->
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnApplyGiamGia"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Apply"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/white"
+                                    app:backgroundTint="@color/black"
+                                    app:cornerRadius="30dp"
+                                    android:gravity="center"/>
+                            </LinearLayout>
                             <TextView
                                 android:id="@+id/textView24"
                                 android:background="#ADB1B5"
                                 android:layout_width="match_parent"
-                                android:layout_marginTop="20dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_margin="10dp"
                                 android:layout_height="0.6dp" />
 
                             <LinearLayout
@@ -331,6 +343,7 @@
 
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="match_parent"
+                                    android:layout_marginTop="20dp"
                                     android:layout_height="match_parent">
 
                                     <com.google.android.material.button.MaterialButton

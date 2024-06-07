@@ -36,7 +36,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="15dp"
             android:layout_marginRight="10dp"
-            app:srcCompat="@drawable/menu25" />
+            app:srcCompat="@drawable/notification_static_1" />
     </LinearLayout>
 
 </androidx.appcompat.widget.Toolbar>

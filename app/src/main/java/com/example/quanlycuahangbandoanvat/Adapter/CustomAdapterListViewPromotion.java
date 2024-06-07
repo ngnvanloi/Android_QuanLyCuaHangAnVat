@@ -63,7 +63,7 @@ public class CustomAdapterListViewPromotion extends ArrayAdapter {
 
         TextView tvPrice = convertView.findViewById(R.id.tvPromotionDiscountAmount);
         int discountAmount = (int) Math.round(promotion.getDiscount_Amount());
-        tvPrice.setText("Giảm giá:" + discountAmount + "%");
+        tvPrice.setText("Giảm giá: " + discountAmount + "%");
 
         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")); // định dạng tiền tệ cho Việt Nam
         String formattedTotalMin = format.format(promotion.getTotal_min());
@@ -94,7 +94,6 @@ public class CustomAdapterListViewPromotion extends ArrayAdapter {
                 }
             }.start();
         }
-
         return convertView;
     }
 }
