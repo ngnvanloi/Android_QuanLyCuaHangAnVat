@@ -41,6 +41,7 @@ import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Location;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Login;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Menu;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.NoLoginCart;
+import com.example.quanlycuahangbandoanvat.GUI.MainFragment.NoLoginNotification;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Option;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Register;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Voucher;
@@ -92,7 +93,14 @@ public class MainActivity extends AppCompatActivity implements OnNavigationLinkC
                 loadFragment(new Register());
             }
         });
-        imageViewOptionNavigation.setOnClickListener(v -> loadFragment(new Option()));
+
+        imageViewOptionNavigation.setOnClickListener(v -> {
+            if (isUserLoggedIn()) {
+                loadFragment(new Option());
+            } else {
+                loadFragment(new NoLoginNotification());
+            }
+        });
 
         // Bottom Navigation Item Listener
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {

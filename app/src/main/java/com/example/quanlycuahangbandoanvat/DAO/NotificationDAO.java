@@ -149,6 +149,5 @@ public class NotificationDAO implements DAOinterface<Notification> {
             }
         });
     }
-
 }
 
