@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.example.quanlycuahangbandoanvat.DTO.OptionCategory;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Menu;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Register;
 import com.example.quanlycuahangbandoanvat.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +96,7 @@ public class Category_Fragment extends Fragment {
                 OptionCategory OptionCategory = (OptionCategory) o;
 //                Toast.makeText(getContext(), "Selected :"
 //                        + " " + OptionCategory, Toast.LENGTH_LONG).show();
-                loadFragmentMenu();
+                switchToMenuFragment();
             }
         });
     }
@@ -122,5 +124,12 @@ public class Category_Fragment extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.FrameLayoutMainActivity, new Menu());
         fragmentTransaction.commit();
+    }
+    private void switchToMenuFragment() {
+        FrameLayout frameLayoutMainActivity = requireActivity().findViewById(R.id.FrameLayoutMainActivity);
+        frameLayoutMainActivity.removeAllViews();
+        frameLayoutMainActivity.addView(LayoutInflater.from(getContext()).inflate(R.layout.fragment_menu, frameLayoutMainActivity, false));
+        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.BottomNavigation);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_menu);
     }
 }

@@ -90,7 +90,6 @@ public class Option extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // ánh xạ ID
         listViewNotification = view.findViewById(R.id.listViewNotification);
-
         // get Customer_ID
         String Customer_ID = getCustomerIDFromSharedReferences();
         // hiển thị thông báo

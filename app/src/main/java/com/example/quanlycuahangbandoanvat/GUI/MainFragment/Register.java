@@ -248,7 +248,6 @@ public class Register extends Fragment {
         FrameLayout frameLayoutMainActivity = requireActivity().findViewById(R.id.FrameLayoutMainActivity);
         frameLayoutMainActivity.removeAllViews();
         frameLayoutMainActivity.addView(LayoutInflater.from(getContext()).inflate(R.layout.fragment_menu, frameLayoutMainActivity, false));
-
         BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.BottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_menu);
     }

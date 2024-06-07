@@ -1,8 +1,12 @@
 package com.example.quanlycuahangbandoanvat.GUI;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -17,9 +21,16 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.example.quanlycuahangbandoanvat.BUS.CustomerBUS;
+import com.example.quanlycuahangbandoanvat.BUS.NotificationBUS;
 import com.example.quanlycuahangbandoanvat.Config.InitDatabase;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackCustomer;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackNotification;
+import com.example.quanlycuahangbandoanvat.DAO.CustomerDAO;
+import com.example.quanlycuahangbandoanvat.DAO.NotificationDAO;
 import com.example.quanlycuahangbandoanvat.DTO.Customer;
 import com.example.quanlycuahangbandoanvat.DTO.CustomerViewModel;
+import com.example.quanlycuahangbandoanvat.DTO.Notification;
 import com.example.quanlycuahangbandoanvat.GUI.CartFragment.CartEmptyFragment;
 import com.example.quanlycuahangbandoanvat.GUI.Interface.OnCartChangedListener;
 import com.example.quanlycuahangbandoanvat.GUI.Interface.OnNavigationLinkClickListener;
@@ -36,6 +47,8 @@ import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Voucher;
 import com.example.quanlycuahangbandoanvat.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements OnNavigationLinkClickListener, OnCartChangedListener {
     private BottomNavigationView bottomNavigationView;
     private ImageView imageViewAccountNavigation, imageViewHomeNavigation, imageViewOptionNavigation;
@@ -43,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationLinkC
     private Toolbar toolbar;
     private CustomerViewModel customerViewModel;
     private Boolean isLogin;
-
+    NotificationBUS notificationBUS = new NotificationBUS();
+    NotificationDAO notificationDAO = new NotificationDAO();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +75,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationLinkC
         toolbar = findViewById(R.id.toolbar);
 
         // notification icon
-        Glide.with(this)
-                .load(R.drawable.notification_animated_1)
-                .placeholder(R.drawable.notification_static_1)
-                .error(R.drawable.notification_static_1)
-                .into(imageViewOptionNavigation);
+        //showIconNotification(getCustomerIDFromSharedPreferences());
 
         // Customer ViewModel
         customerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);
@@ -115,10 +125,29 @@ public class MainActivity extends AppCompatActivity implements OnNavigationLinkC
         // Load the default Home fragment
         loadFragment(new Home());
     }
-
     @Override
     protected void onStart() {
         super.onStart();
+    }
+    private Handler handler = new Handler();
+    private Runnable updateNotificationIconRunnable = new Runnable() {
+        @Override
+        public void run() {
+            showIconNotification(getCustomerIDFromSharedPreferences());
+            handler.postDelayed(this, 10000);
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handler.post(updateNotificationIconRunnable);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(updateNotificationIconRunnable);
     }
 
     private void loadFragment(Fragment fragment) {
@@ -161,4 +190,37 @@ public class MainActivity extends AppCompatActivity implements OnNavigationLinkC
     public void onCartChanged() {
 
     }
+
+    public void showIconNotification(String id) {
+        notificationDAO.selectAll(new OnDataLoadedCallbackNotification() {
+            @Override
+            public void onDataLoaded(ArrayList<Notification> t) {
+                notificationBUS = new NotificationBUS(t);
+                if(notificationBUS.isExistUnnoticedNotificationByCustomerID(id)) {
+                    Glide.with(getApplicationContext())
+                            .load(R.drawable.notification_animated_1)
+                            .placeholder(R.drawable.notification_static_1)
+                            .error(R.drawable.notification_static_1)
+                            .into(imageViewOptionNavigation);
+                }
+                else {
+                    Glide.with(getApplicationContext())
+                            .load(R.drawable.notification_static_1)
+                            .placeholder(R.drawable.notification_static_1)
+                            .error(R.drawable.notification_static_1)
+                            .into(imageViewOptionNavigation);
+                }
+            }
+            @Override
+            public void onDataLoadedSingle(Notification t) {
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
 }

@@ -135,5 +135,20 @@ public class NotificationDAO implements DAOinterface<Notification> {
         });
         return  notifications[0];
     }
+
+    public void updateNotificationStatus(String notificationId, boolean status, final CRUDCallback callback) {
+        DocumentReference notificationRef = firestore.collection("notification").document(notificationId);
+        notificationRef.update("Notification_Status", status).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    callback.onCRUDComplete(1); // Thành công
+                } else {
+                    callback.onCRUDComplete(0); // Thất bại
+                }
+            }
+        });
+    }
+
 }
 
