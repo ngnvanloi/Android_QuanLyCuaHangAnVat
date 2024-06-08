@@ -9,13 +9,9 @@
         android:icon="@drawable/order_list_admin"
         android:title="Order" />
     <item
-        android:id="@+id/navigation_customer"
-        android:icon="@drawable/customer_admin"
-        android:title="Customer" />
-    <item
-        android:id="@+id/navigation_food"
-        android:icon="@drawable/food_admin"
-        android:title="Food" />
+        android:id="@+id/navigation_statistic"
+        android:icon="@drawable/line_chart"
+        android:title="Statistic" />
     <item
         android:id="@+id/navigation_logout"
         android:icon="@drawable/logout"

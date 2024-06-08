@@ -8,11 +8,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
-import com.example.quanlycuahangbandoanvat.GUI.Admin.CustomFragment.CustomAdminFragment;
-import com.example.quanlycuahangbandoanvat.GUI.Admin.FoodFragment.FoodAdminFragment;
 import com.example.quanlycuahangbandoanvat.GUI.Admin.HomeFragment.HomeAdminFragment;
 import com.example.quanlycuahangbandoanvat.GUI.Admin.LogoutFragment.LogoutAdminFragment;
 import com.example.quanlycuahangbandoanvat.GUI.Admin.OrderFragment.OrderAdminFragment;
+import com.example.quanlycuahangbandoanvat.GUI.Admin.Statistic_Fragment.StatisticAdminFragment;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Account;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Carts;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Home;
@@ -43,11 +42,8 @@ public class ActivityAdminMain extends AppCompatActivity {
                 case R.id.navigation_order:
                     loadFragment(new OrderAdminFragment());
                     break;
-                case R.id.navigation_customer:
-                    loadFragment(new CustomAdminFragment());
-                    break;
-                case R.id.navigation_food:
-                    loadFragment(new FoodAdminFragment());
+                case R.id.navigation_statistic:
+                    loadFragment(new StatisticAdminFragment());
                     break;
                 case R.id.navigation_logout:
                     loadFragment(new LogoutAdminFragment());
