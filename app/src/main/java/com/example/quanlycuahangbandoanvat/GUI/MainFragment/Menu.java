@@ -46,48 +46,13 @@ public class Menu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView= inflater.inflate(R.layout.fragment_menu, container, false);
-        tabLayout=mView.findViewById(R.id.tabLayout_Menu);
-        viewPager=mView.findViewById(R.id.menu_ViewPage);
-        MyViewPageAdapter_Menu adapter=new MyViewPageAdapter_Menu(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        mView = inflater.inflate(R.layout.fragment_menu, container, false);
+        tabLayout = mView.findViewById(R.id.tabLayout_Menu);
+        viewPager = mView.findViewById(R.id.menu_ViewPage);
+        MyViewPageAdapter_Menu adapter = new MyViewPageAdapter_Menu(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-//      tabLayout.addOnTabSelectedListener();
-
-        //Add cart_ID
-        String cus_id = getCustomerIDFromSharedReferences();
-        cartDAO.selectAll(new OnDataLoadedCallbackCart() {
-            @Override
-            public void onDataLoaded(ArrayList<Cart> t) {
-                cartBUS = new CartBUS(t);
-                if (!cus_id.equals("")) {
-                    Cart cart = cartBUS.getCartByCustomerIDs(cus_id);
-                    if (cart != null) { // Kiểm tra xem cart có null hay không
-                        SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("current_cart_id", cart.getCart_ID());
-                        editor.apply();
-                    } else {
-
-                    }
-                }
-            }
-            @Override
-            public void onError(String errorMessage) {
-
-            }
-
-            @Override
-            public void onDataLoadedSigle(Cart cart) {
-
-            }
-        });
         return mView;
-    }
-    private String getCustomerIDFromSharedReferences(){
-        SharedPreferences sharedPref =  requireActivity().getPreferences(Context.MODE_PRIVATE);
-        String currentCustomerID = sharedPref.getString("current_customer_id", "");
-        return currentCustomerID;
     }
 
 }

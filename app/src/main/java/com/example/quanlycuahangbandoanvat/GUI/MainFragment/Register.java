@@ -189,7 +189,7 @@ public class Register extends Fragment {
                             public void onCRUDComplete(int result) {
                                 if(result == 1) {
                                     Toast.makeText(getContext(), "Register successfully, your are here now by your account", Toast.LENGTH_SHORT).show();
-                                    Cart cart = new Cart(null,customer.getCus_ID(),0.0);
+                                    Cart cart = new Cart(null,customer.getCus_ID(),0.0,false);
                                     cartDAO.insert(cart, new CRUDCallback() {
                                         @Override
                                         public void onCRUDComplete(int result) {

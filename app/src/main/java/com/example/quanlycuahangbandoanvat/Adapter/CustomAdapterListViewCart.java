@@ -190,7 +190,7 @@ public class CustomAdapterListViewCart extends RecyclerView.Adapter<CustomAdapte
                 for (CartDetail cartDetail : cartDetails) {
                     totalCartPrice += cartDetail.getPrice();
                 }
-                Cart cart = new Cart(cartID, customerID, totalCartPrice);
+                Cart cart = new Cart(cartID, customerID, totalCartPrice,false);
                 cartDAO.update(cart, new CRUDCallback() {
                     @Override
                     public void onCRUDComplete(int result) {

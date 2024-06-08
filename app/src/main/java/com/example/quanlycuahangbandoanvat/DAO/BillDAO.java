@@ -4,10 +4,12 @@ package com.example.quanlycuahangbandoanvat.DAO;
 import androidx.annotation.NonNull;
 
 import com.example.quanlycuahangbandoanvat.DAO.Callback.CRUDCallback;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCalbackBill;
 import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallback;
 import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackCart;
 import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackCartDetail;
 import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackFood;
+import com.example.quanlycuahangbandoanvat.DTO.Bill;
 import com.example.quanlycuahangbandoanvat.DTO.Cart;
 import com.example.quanlycuahangbandoanvat.DTO.CartDetail;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,38 +24,37 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class CartDetailDAO implements DAOinterface<CartDetail>{
+public class BillDAO implements DAOinterface<Bill>{
 
     private FirebaseFirestore firestore;
-    private CollectionReference cartDetailCollection;
+    private CollectionReference billCollection;
 
-    public CartDetailDAO() {
+    public BillDAO() {
         this.firestore = FirebaseFirestore.getInstance();
-        this.cartDetailCollection = firestore.collection("cart_detail");
+        this.billCollection = firestore.collection("bill");
     }
     @Override
-    public void insert(CartDetail cartDetail, final CRUDCallback callback) {
+    public void insert(Bill bill, final CRUDCallback callback) {
         final boolean[] check = {false};
-        if (cartDetail != null) {
+        if (bill != null) {
             // Add data to Firebase Store
-            firestore.collection("cart_detail").add(cartDetail).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            firestore.collection("bill").add(bill).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentReference> task) {
                     if (task.isSuccessful()) {
                         check[0] = true;
-                        String idForField = task.getResult().getId(); // Lấy ID của tài liệu mới được thêm vào
-                        cartDetail.setCartDetail_ID(idForField); // Thiết lập ID cho đối tượng Food
+                        String idForField = task.getResult().getId();
+                        bill.setBill_ID(idForField);
 
-                        // Update the document to set the "Food_ID" field
                         String documentId = task.getResult().getId();
-                        firestore.collection("cart_detail").document(documentId).update("cartDetail_ID", idForField)
+                        firestore.collection("bill").document(documentId).update("bill_ID", idForField)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> updateTask) {
                                         if (updateTask.isSuccessful()) {
-                                            callback.onCRUDComplete(1); // Thành công -> lưu trữ kết quả
+                                            callback.onCRUDComplete(1);
                                         } else {
-                                            callback.onCRUDComplete(0); // Thất bại
+                                            callback.onCRUDComplete(0);
                                         }
                                     }
                                 });
@@ -69,11 +70,11 @@ public class CartDetailDAO implements DAOinterface<CartDetail>{
     }
 
     @Override
-    public void update(CartDetail cartDetail, final CRUDCallback callback) {
+    public void update(Bill bill, final CRUDCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        if (cartDetail != null && cartDetail.getCartDetail_ID() != null) {
-            DocumentReference foodRef = db.collection("cart_detail").document(cartDetail.getCartDetail_ID());
-            foodRef.set(cartDetail).addOnCompleteListener(new OnCompleteListener<Void>() {
+        if (bill != null && bill.getBill_ID() != null) {
+            DocumentReference foodRef = db.collection("bill").document(bill.getBill_ID());
+            foodRef.set(bill).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
@@ -92,7 +93,7 @@ public class CartDetailDAO implements DAOinterface<CartDetail>{
     @Override
     public void delete(String t, final CRUDCallback callback) {
         //FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference foodRef = firestore.collection("cart_detail").document(t);
+        DocumentReference foodRef = firestore.collection("bill").document(t);
 
         final int[] result = new int[1];
         foodRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -110,34 +111,34 @@ public class CartDetailDAO implements DAOinterface<CartDetail>{
     }
 
     //    @Override
-    public ArrayList<CartDetail> selectAll(final OnDataLoadedCallbackCartDetail listener) {
-        final ArrayList<CartDetail> listCartDetail = new ArrayList<>();
-        this.cartDetailCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    public ArrayList<Bill> selectAll(final OnDataLoadedCalbackBill listener) {
+        final ArrayList<Bill> listBill = new ArrayList<>();
+        this.billCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        CartDetail cartDetail = document.toObject(CartDetail.class);
-                        listCartDetail.add(cartDetail);
+                        Bill bill = document.toObject(Bill.class);
+                        listBill.add(bill);
                     }
-                    listener.onDataLoaded(listCartDetail);
+                    listener.onDataLoaded(listBill);
                 } else {
                     listener.onError(null);
                 }
             }
         });
-        return  listCartDetail;
+        return  listBill;
     }
 
-    public Task<ArrayList<CartDetail>> selectAlls() {
-        return cartDetailCollection.get().continueWith(task -> {
+    public Task<ArrayList<Bill>> selectAlls() {
+        return billCollection.get().continueWith(task -> {
             if (task.isSuccessful()) {
-                ArrayList<CartDetail> listCartDetail = new ArrayList<>();
+                ArrayList<Bill> listBill = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    CartDetail cartDetail = document.toObject(CartDetail.class);
-                    listCartDetail.add(cartDetail);
+                    Bill bill = document.toObject(Bill.class);
+                    listBill.add(bill);
                 }
-                return listCartDetail;
+                return listBill;
             } else {
                 // Handle errors: You could throw an exception, log the error, or return null.
                 throw task.getException();
@@ -145,15 +146,15 @@ public class CartDetailDAO implements DAOinterface<CartDetail>{
         });
     }
 
-    public void selectAllByCartID(String cartID, final OnDataLoadedCallbackCartDetail listener) {
-        cartDetailCollection.whereEqualTo("cart_ID", cartID).get().addOnCompleteListener(task -> {
+    public void selectAllByCartID(String cartID, final OnDataLoadedCalbackBill listener) {
+        billCollection.whereEqualTo("bill_ID", cartID).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                ArrayList<CartDetail> listCartDetail = new ArrayList<>();
+                ArrayList<Bill> listBill = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    CartDetail cartDetail = document.toObject(CartDetail.class);
-                    listCartDetail.add(cartDetail);
+                    Bill bill = document.toObject(Bill.class);
+                    listBill.add(bill);
                 }
-                listener.onDataLoaded(listCartDetail);
+                listener.onDataLoaded(listBill);
             } else {
                 listener.onError(task.getException().getMessage());
             }
@@ -161,10 +162,10 @@ public class CartDetailDAO implements DAOinterface<CartDetail>{
     }
 
     @Override
-    public CartDetail selectById(String t) {
+    public Bill selectById(String t) {
         //FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference foodRef = firestore.collection("cart_detail").document(t);
-        final CartDetail[] cartDetails = {new CartDetail()};
+        DocumentReference foodRef = firestore.collection("bill").document(t);
+        final Bill[] bills = {new Bill()};
 
         foodRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -172,7 +173,7 @@ public class CartDetailDAO implements DAOinterface<CartDetail>{
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        cartDetails[0] = document.toObject(CartDetail.class);
+                        bills[0] = document.toObject(Bill.class);
                     } else {
 
                     }
@@ -181,7 +182,6 @@ public class CartDetailDAO implements DAOinterface<CartDetail>{
                 }
             }
         });
-        return  cartDetails[0];
+        return  bills[0];
     }
-
 }

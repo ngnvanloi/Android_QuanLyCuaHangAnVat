@@ -11,6 +11,11 @@ public class Bill {
     private Date Delivery_Order;
     private String Bill_Status;
     private Double Total_Bill;
+
+    public Bill(){
+
+    }
+
     public Bill(String bill_ID, String cart_ID, String cus_ID, String food_Promotion_ID, Date order_Date, Date delivery_Order, String bill_Status, Double total_Bill) {
         Bill_ID = bill_ID;
         Cart_ID = cart_ID;

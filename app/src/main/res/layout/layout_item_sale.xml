@@ -68,7 +68,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Count down"
-                    android:textColor="#ffc400"
+                    android:textStyle="bold"
+                    android:textColor="#696969"
                     android:textSize="12dp" />
 
                 <Button

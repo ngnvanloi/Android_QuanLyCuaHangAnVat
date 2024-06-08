@@ -4,9 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
+
     private String Cart_ID;
     private String Cus_ID;
     private Double Total_Cart;
+    private Boolean IsPayment;
+
+    public Cart(){
+
+    }
+
+    public Cart(String cart_ID, String cus_ID, Double total_Cart, Boolean isPayment) {
+        Cart_ID = cart_ID;
+        Cus_ID = cus_ID;
+        Total_Cart = total_Cart;
+        IsPayment = isPayment;
+    }
 
     public String getCart_ID() {
         return Cart_ID;
@@ -32,16 +45,11 @@ public class Cart {
         Total_Cart = total_Cart;
     }
 
-    public Cart(String cart_ID, String cus_ID, Double total_Cart) {
-        Cart_ID = cart_ID;
-        Cus_ID = cus_ID;
-        Total_Cart = total_Cart;
+    public Boolean getPayment() {
+        return IsPayment;
     }
 
-    public Cart() {
-
+    public void setPayment(Boolean payment) {
+        IsPayment = payment;
     }
-
-
-
 }

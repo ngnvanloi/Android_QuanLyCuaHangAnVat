@@ -54,4 +54,19 @@ public class CartBUS {
         }
     }
 
+    public Cart getByCartIDs(String id) {
+        int vitri = -1;
+        for (int i = 0; i < this.listCart.size(); i++) {
+            if (this.listCart.get(i).getCart_ID().equals(id)) {
+                vitri = i;
+                break;
+            }
+        }
+        if (vitri != -1) {
+            return this.listCart.get(vitri);
+        } else {
+            return null;
+        }
+    }
+
 }
