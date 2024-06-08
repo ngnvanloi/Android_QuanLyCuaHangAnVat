@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 
 import com.example.quanlycuahangbandoanvat.GUI.Admin.HomeFragment.HomeAdminFragment;
 import com.example.quanlycuahangbandoanvat.GUI.Admin.LogoutFragment.LogoutAdminFragment;
+import com.example.quanlycuahangbandoanvat.GUI.Admin.NotificationFragment.NotificationAdminFragment;
 import com.example.quanlycuahangbandoanvat.GUI.Admin.OrderFragment.OrderAdminFragment;
 import com.example.quanlycuahangbandoanvat.GUI.Admin.Statistic_Fragment.StatisticAdminFragment;
 import com.example.quanlycuahangbandoanvat.GUI.MainActivity;
@@ -42,6 +43,9 @@ public class ActivityAdminMain extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.navigation_homeadmin);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
+                case R.id.navigation_notification:
+                    loadFragment(new NotificationAdminFragment());
+                    break;
                 case R.id.navigation_homeadmin:
                     loadFragment(new HomeAdminFragment());
                     break;
