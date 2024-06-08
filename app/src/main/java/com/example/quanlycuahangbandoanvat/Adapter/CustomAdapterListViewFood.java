@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.IconCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.quanlycuahangbandoanvat.BUS.CartBUS;
@@ -77,6 +79,13 @@ public class CustomAdapterListViewFood extends ArrayAdapter<Food> {
         tvDes.setText(String.valueOf(food.getFood_Description()));
 
         Button btnAddFoodToCart = convertView.findViewById(R.id.btnFoodAddToCart);
+        if(getCustomerIDFromSharedPreferences().isEmpty()) {
+            btnAddFoodToCart.setEnabled(false);
+            btnAddFoodToCart.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.gray100));
+        }
+
+
+
 
         btnAddFoodToCart.setOnClickListener(new View.OnClickListener() {
             @Override

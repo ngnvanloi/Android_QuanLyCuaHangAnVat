@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -65,6 +66,13 @@ public class CustomAdapterRecycleViewFood extends RecyclerView.Adapter<CustomAda
                 .placeholder(R.drawable.logokfc3) // Hình ảnh hiển thị trong khi tải
                 .error(R.drawable.image_error) // Hình ảnh hiển thị nếu tải thất bại
                 .into(holder.imageViewFood);
+
+
+
+        if(getCustomerIDFromSharedReferences().isEmpty()) {
+            holder.btnAddFood.setEnabled(false);
+            holder.btnAddFood.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.gray100));
+        }
 
         holder.btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override

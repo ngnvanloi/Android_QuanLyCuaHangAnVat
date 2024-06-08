@@ -56,8 +56,10 @@ public class NotificationBUS {
     public boolean isExistUnnoticedNotificationByCustomerID(String id) {
         // thông báo chưa đọc
         for(Notification item: this.listNotification) {
-            if(item.getNotification_Status() == false) {
-                return  true;
+            if(item.getReceiver_ID().equals(id)) {
+                if(item.getNotification_Status() == false) {
+                    return  true;
+                }
             }
         }
         return false;
