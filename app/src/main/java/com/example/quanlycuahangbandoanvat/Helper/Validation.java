@@ -1,5 +1,7 @@
 package com.example.quanlycuahangbandoanvat.Helper;
 
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,5 +62,13 @@ public class Validation {
             result = false;
         }
         return result;
+    }
+    public static boolean isValidMonth(int month) {
+        return (month >= 1 && month <= 12);
+    }
+    public static boolean isValidYear(int year) {
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        return (year <= currentYear);
     }
 }

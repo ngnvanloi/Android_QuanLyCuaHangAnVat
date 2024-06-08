@@ -14,10 +14,15 @@ import android.widget.TextView;
 
 import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterListViewFood;
 import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterListViewFoodPopular;
+import com.example.quanlycuahangbandoanvat.BUS.BillBUS;
 import com.example.quanlycuahangbandoanvat.BUS.FoodBUS;
+import com.example.quanlycuahangbandoanvat.DAO.BillDAO;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCalbackBill;
 import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackFood;
 import com.example.quanlycuahangbandoanvat.DAO.FoodDAO;
+import com.example.quanlycuahangbandoanvat.DTO.Bill;
 import com.example.quanlycuahangbandoanvat.DTO.Food;
+import com.example.quanlycuahangbandoanvat.Helper.Formatter;
 import com.example.quanlycuahangbandoanvat.R;
 
 import org.checkerframework.checker.units.qual.A;
@@ -36,7 +41,7 @@ public class HomeAdminFragment extends Fragment {
     CustomAdapterListViewFoodPopular customAdapterFood;
     FoodDAO foodDAO = new FoodDAO();
     ArrayList<Food> listFood = new ArrayList<>();
-    TextView tv;
+    TextView tv,SumOfOrdered,SumOfOrder,SumOfTurnOver,SumOfFood;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,32 +89,55 @@ public class HomeAdminFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home_admin, container, false);
     }
 
+    BillDAO billDAO = new BillDAO();
+    BillBUS billBUS = new BillBUS();
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // ánh xạ ID
         listViewFoodPoplular = (view).findViewById(R.id.listfoodpopular);
-
+        SumOfOrdered=view.findViewById(R.id.SumOfOrdered);
+        SumOfOrder=view.findViewById(R.id.SumOfOrder);
+        SumOfTurnOver=view.findViewById(R.id.SumOfTurnOver);
+        SumOfFood=view.findViewById(R.id.SumOfFood);
 
         // innit array list Food
         foodDAO.selectAll(new OnDataLoadedCallbackFood() {
             @Override
             public void onDataLoaded(ArrayList<Food> Foods) {
                 listFood.addAll(Foods);
-                ArrayList<Food> listFoodPopular = new ArrayList<Food>();
-                int count = 0;
-                for (Food x : listFood)
-                {
-                    count = count + 1;
-                    if(count == 2)
-                    {
-                        break;
-                    }
-                    listFoodPopular.add(x);
-                }
+                foodBUS = new FoodBUS(Foods);
+                // tổng món ăn
+                int sumOfFood = foodBUS.getTotalFood();
+                SumOfFood.setText(String.valueOf(sumOfFood));
+
+
+                // hiển thị danh sách
+                ArrayList<Food> listFoodPopular = foodBUS.getRandomFoods(10);
                 // init list view
                 customAdapterFood = new CustomAdapterListViewFoodPopular(getContext(), R.layout.layout_foodpopular, listFoodPopular);
                 listViewFoodPoplular.setAdapter(customAdapterFood);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+
+        // init bill information
+        billDAO.selectAll(new OnDataLoadedCalbackBill() {
+            @Override
+            public void onDataLoaded(ArrayList<Bill> t) {
+                billBUS = new BillBUS(t);
+
+                int totalBill = billBUS.getTotalBill();
+                int totalUnconfirmedBill = billBUS.getUnconfirmedBill();
+                double revenue = billBUS.getRevenueBill();
+
+                SumOfOrdered.setText(String.valueOf(totalBill));
+                SumOfOrder.setText(String.valueOf(totalUnconfirmedBill));
+                SumOfTurnOver.setText(Formatter.FormatVND(revenue));
             }
 
             @Override

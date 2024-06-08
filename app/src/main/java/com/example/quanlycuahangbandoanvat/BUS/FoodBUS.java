@@ -108,4 +108,7 @@ public class FoodBUS {
         }
         return  newFood;
     }
+    public int getTotalFood() {
+        return this.listFood.size();
+    }
 }

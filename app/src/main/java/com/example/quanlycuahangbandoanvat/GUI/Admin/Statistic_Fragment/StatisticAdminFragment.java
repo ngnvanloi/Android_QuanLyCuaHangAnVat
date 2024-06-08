@@ -9,18 +9,36 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.quanlycuahangbandoanvat.BUS.BillBUS;
+import com.example.quanlycuahangbandoanvat.DAO.BillDAO;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCalbackBill;
+import com.example.quanlycuahangbandoanvat.DTO.Bill;
+import com.example.quanlycuahangbandoanvat.Helper.Formatter;
+import com.example.quanlycuahangbandoanvat.Helper.Validation;
 import com.example.quanlycuahangbandoanvat.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.checkerframework.checker.units.qual.A;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +56,7 @@ public class StatisticAdminFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    PieChart pieChart;
+    BarChart barChart;
 
     public StatisticAdminFragment() {
         // Required empty public constructor
@@ -77,23 +95,129 @@ public class StatisticAdminFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_statistic_admin, container, false);
     }
+    BillDAO billDAO = new BillDAO();
+    BillBUS billBUS = new BillBUS();
+    float [] dailyRevenue;
+    Button btnThongKe;
+    EditText edtMonth,edtYear;
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        pieChart =  (view).findViewById(R.id.pie_chart);
-        ArrayList<PieEntry> pieEntries = new ArrayList<PieEntry>();
-        String[] foodLabels = new String[] {"Món ăn A", "Món ăn B", "Món ăn C", "Món ăn D", "Món ăn E"};
-        for(int i = 0; i < 5; i++)
-        {
-            float value  =(float) (i*10.0+100);
-            PieEntry pieEntry = new PieEntry(value, foodLabels[i] + " : " + value); // Thêm nhãn cho từng PieEntry
-            pieEntries.add(pieEntry);
+        barChart =  (view).findViewById(R.id.bar_chart);
+        setupBarChart();
+        // ánh xạ ID
+        btnThongKe = view.findViewById(R.id.btnThongKe);
+        edtMonth=view.findViewById(R.id.edtMonth);
+        edtYear=view.findViewById(R.id.edtYear);
+
+        btnThongKe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String monthString = edtMonth.getText().toString();
+                String yearString = edtYear.getText().toString();
+
+                if(monthString.isEmpty() || yearString.isEmpty()) {
+                    Toast.makeText(getContext(), "Please fill out all information !", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    int month = Integer.parseInt(monthString);
+                    int year = Integer.parseInt(yearString);
+                    if(Validation.isValidMonth(month) && Validation.isValidYear(year)) {
+                        billDAO.selectAll(new OnDataLoadedCalbackBill() {
+                            @Override
+                            public void onDataLoaded(ArrayList<Bill> t) {
+                                billBUS = new BillBUS(t);
+
+                                dailyRevenue = billBUS.getStatisticByMonth(month, year);
+                                loadBarChartData(dailyRevenue);
+                            }
+                            @Override
+                            public void onError(String errorMessage) {
+
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Invalid month or year !", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+            }
+        });
+    }
+    private void setupBarChart() {
+        //Tắt mô tả mặc định của biểu đồ.
+        barChart.getDescription().setEnabled(false);
+        //Tắt nền lưới của biểu đồ
+        barChart.setDrawGridBackground(false);
+        //Tắt việc vẽ bóng mờ cho các cột.
+        barChart.setDrawBarShadow(false);
+        //Hiển thị giá trị của mỗi cột phía trên cột.
+        barChart.setDrawValueAboveBar(true);
+        //Cho phép thu phóng bằng cách chụm hai ngón tay.
+        barChart.setPinchZoom(true);
+        //Cho phép phóng to và thu nhỏ biểu đồ.
+        barChart.setScaleEnabled(true);
+        //Đặt khoảng cách lề thêm cho biểu đồ
+        barChart.setExtraOffsets(10, 10, 10, 10);
+        //Đặt vị trí của trục X ở phía dưới biểu đồ--> thiết lập trục X//
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        //Đặt khoảng cách tối thiểu giữa các nhãn trục X
+        xAxis.setGranularity(1f);
+        //Tắt vẽ các đường lưới dọc trên trục X.
+        xAxis.setDrawGridLines(false);
+        //Đặt bộ định dạng cho các giá trị trục X.
+        xAxis.setValueFormatter(new IndexAxisValueFormatter());
+        //Tắt vẽ các đường lưới ngang trên trục Y bên trái.
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+        //Tắt trục Y bên phải
+        barChart.getAxisRight().setEnabled(false);
+    }
+
+    private void loadBarChartData(float[] dailyRevenue) {
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        for (int i = 0; i < dailyRevenue.length; i++) {
+            entries.add(new BarEntry(i + 1, dailyRevenue[i]));
         }
-        PieDataSet pieDataSet = new PieDataSet(pieEntries,"");
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        pieDataSet.setDrawValues(false);
-        pieChart.setData(new PieData(pieDataSet));
-        pieChart.animateXY(5000,5000);
-        pieChart.getDescription().setEnabled(false);
+
+        BarDataSet dataSet = new BarDataSet(entries, "Doanh thu hàng ngày");
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setValueTextSize(16f);
+        dataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getBarLabel(BarEntry barEntry) {
+                if (barEntry.getY() == 0) {
+                    return "";
+                }
+
+                return Formatter.FormatVND(barEntry.getY());
+            }
+        });
+
+        BarData data = new BarData(dataSet);
+        barChart.setData(data);
+
+        // Thiết lập trục X
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return "Ngày " + ((int) value);
+            }
+        });
+
+        // Thiết lập cuộn ngang cho biểu đồ
+        barChart.getXAxis().setAxisMinimum(0f);
+        barChart.getXAxis().setAxisMaximum(entries.size());
+
+        barChart.invalidate();
     }
 }
+

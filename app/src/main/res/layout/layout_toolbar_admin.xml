@@ -8,6 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="#8BDCD4"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -15,7 +17,7 @@
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/user_1" />
+            app:srcCompat="@drawable/logo_kfc" />
 
         <TextView
             android:id="@+id/textView29"
@@ -24,20 +26,20 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="18dp"
             android:layout_weight="1"
-            android:text="Xin chào, AdminA"
+            android:text="Admin Workspace"
             android:textColor="@color/black"
-            android:textSize="18dp"
+            android:textSize="20dp"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView31"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/black"
-        android:textSize="26dp"
-        android:textStyle="bold"
-        android:text="Hôm nay bạn thế nào?" />
+<!--    <TextView-->
+<!--        android:id="@+id/textView31"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="18dp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:text="Hôm nay bạn thế nào?" />-->
 
 </LinearLayout>

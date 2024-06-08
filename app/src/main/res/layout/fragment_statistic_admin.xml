@@ -6,161 +6,121 @@
     android:padding="20dp"
     tools:context=".GUI.Admin.Statistic_Fragment.StatisticAdminFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/textView37"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="Thống kê số lượng các loại món ăn"
+                android:layout_marginBottom="20dp"
+                android:text="Thống kê doanh thu theo từng tháng"
                 android:textColor="@color/black"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="20dp"
-                android:orientation="vertical">
-
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pie_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_weight="1" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginBottom="20dp"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView44"
+                        android:paddingTop="10dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/black"
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Chọn năm" />
+
+                    <EditText
+                        android:id="@+id/edtYear"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:ems="10"
+                        android:textSize="16dp"
+                        android:inputType="number"
+                        android:hint="2024" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textView42"
-                        android:layout_width="120dp"
-                        android:layout_height="60dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/button4_home_admin"
-                        android:gravity="center"
-                        android:text="90"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
+                        android:paddingTop="10dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/black"
+                        android:paddingBottom="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Chọn tháng" />
+                    <EditText
+                        android:id="@+id/edtMonth"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:orientation="vertical">
+                        android:layout_height="40dp"
+                        android:ems="10"
+                        android:textSize="16dp"
+                        android:inputType="number"
+                        android:hint="1" />
 
-                        <TextView
-                            android:id="@+id/textView43"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Thống kê"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textView44"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tổng doanh thu" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginBottom="20dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView422"
-                        android:layout_width="120dp"
-                        android:layout_height="60dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/button2_home_admin"
-                        android:gravity="center"
-                        android:text="90"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView438"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tổng số"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textView449"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Đơn thành công" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView421"
-                        android:layout_width="120dp"
-                        android:layout_height="60dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/button1_home_admin"
-                        android:gravity="center"
-                        android:text="90"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView431"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Số lượng"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textView441"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Đơn bị hủy" />
-                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
+            <Button
+                android:id="@+id/btnThongKe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/red"
+                android:text="Thông kê" />
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:scrollbars="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <com.github.mikephil.charting.charts.BarChart
+                                android:id="@+id/bar_chart"
+                                android:layout_width="1000dp"
+                                android:layout_height="match_parent"
+                                tools:ignore="MissingClass" />
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
+                </LinearLayout>
+            </ScrollView>
+
         </LinearLayout>
-    </ScrollView>
 
 </FrameLayout>

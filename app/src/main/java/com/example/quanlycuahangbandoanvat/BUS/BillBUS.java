@@ -6,6 +6,8 @@ import com.example.quanlycuahangbandoanvat.DTO.CartDetail;
 import com.example.quanlycuahangbandoanvat.DTO.Food;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class BillBUS {
     private ArrayList<Bill> listBill = new ArrayList<>();
@@ -53,5 +55,42 @@ public class BillBUS {
         } else {
             return null;
         }
+    }
+    public float[] getStatisticByMonth(int month, int year) {
+        float[] dailyRevenue = new float[31];
+        Calendar calendar = Calendar.getInstance();
+
+        for (Bill bill : listBill) {
+            Date orderDate = bill.getOrder_Date();
+            calendar.setTime(orderDate);
+
+            int billMonth = calendar.get(Calendar.MONTH) + 1;
+            int billYear = calendar.get(Calendar.YEAR);
+
+            if (billMonth == month && billYear == year) {
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                dailyRevenue[day - 1] += bill.getTotal_Bill();
+            }
+        }
+
+        return dailyRevenue;
+    }
+    public int getTotalBill() {
+        return this.listBill.size();
+    }
+    public int getUnconfirmedBill() {
+        int result = 0;
+        for(Bill item : this.listBill) {
+            if(item.getBill_Status().equals("Chờ xác nhận"));
+            result ++;
+        }
+        return result;
+    }
+    public double getRevenueBill() {
+        double result = 0;
+        for(Bill item : this.listBill) {
+            result+=item.getTotal_Bill();
+        }
+        return result;
     }
 }

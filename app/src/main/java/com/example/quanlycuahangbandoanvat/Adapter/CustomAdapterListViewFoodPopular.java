@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.example.quanlycuahangbandoanvat.DTO.Food;
+import com.example.quanlycuahangbandoanvat.Helper.Formatter;
 import com.example.quanlycuahangbandoanvat.R;
 
 import java.util.ArrayList;
@@ -39,7 +40,17 @@ public class CustomAdapterListViewFoodPopular extends ArrayAdapter<Food> {
         TextView namefood = convertView.findViewById(R.id.namefood);
         namefood.setText(food.getFood_Name());
         TextView pricefood = convertView.findViewById(R.id.pricefood);
-        pricefood.setText("$" + String.valueOf(food.getFood_Price()));
+        pricefood.setText(Formatter.FormatVND(food.getFood_Price()));
+
+        ImageView imageView = convertView.findViewById(R.id.imgfoodpopular);
+        String urlImage = food.getFood_Image();
+
+        Glide.with(getContext())
+                .load(urlImage)
+                .placeholder(R.drawable.logokfc3)
+                .error(R.drawable.image_error)
+                .into(imageView);
+
         return convertView;
     }
 }
