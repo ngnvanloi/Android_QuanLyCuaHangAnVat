@@ -71,5 +71,4 @@ public class PromotionBUS {
         }
         return  newPromotion;
     }
-
 }

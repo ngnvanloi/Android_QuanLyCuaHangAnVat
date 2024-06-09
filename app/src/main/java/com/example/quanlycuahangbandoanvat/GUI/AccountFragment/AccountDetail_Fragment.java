@@ -10,6 +10,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -27,6 +29,8 @@ import com.example.quanlycuahangbandoanvat.DAO.CustomerDAO;
 import com.example.quanlycuahangbandoanvat.DTO.Customer;
 import com.example.quanlycuahangbandoanvat.DTO.CustomerViewModel;
 import com.example.quanlycuahangbandoanvat.GUI.MainActivity;
+import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Account;
+import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Home;
 import com.example.quanlycuahangbandoanvat.Helper.Validation;
 import com.example.quanlycuahangbandoanvat.R;
 
@@ -135,7 +139,7 @@ public class AccountDetail_Fragment extends Fragment {
                             String email = edtEmail.getText().toString();
                             String ID = getCustomerIDFromSharedReferences();
                             String password = currentCustomer.getCus_Password();
-                            if(checkFillOutInformation(name, gender, address, phone,email,password)) {
+                            if(checkFillOutInformation(name, gender, address, phone,email)) {
                                 if(!Validation.isEmail(email)) {
                                     Toast.makeText(getContext(), "Invalid email, try another one", Toast.LENGTH_SHORT).show();
                                 } else if(!Validation.isValidPhoneNumber(phone)) {
@@ -252,10 +256,16 @@ public class AccountDetail_Fragment extends Fragment {
             }
         }
     }
-    public boolean checkFillOutInformation(String name, String gender, String address, String phone, String email, String password){
-        if(email.isEmpty() || password.isEmpty() || name.isEmpty() || gender.isEmpty() || address.isEmpty() || phone.isEmpty()) {
+    public boolean checkFillOutInformation(String name, String gender, String address, String phone, String email){
+        if(email.isEmpty() ||  name.isEmpty() || gender.isEmpty() || address.isEmpty() || phone.isEmpty()) {
             return false;
         }
         return true;
+    }
+    private void loadFragmentAccount() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.FrameLayoutMainActivity, new Account());
+        fragmentTransaction.commit();
     }
 }

@@ -145,9 +145,7 @@ public class StatisticAdminFragment extends Fragment {
                                     TextView noDataTextView = view.findViewById(R.id.tv_nodata);
                                     barChart.setVisibility(View.GONE);
                                     noDataTextView.setVisibility(View.VISIBLE);
-
                                 }
-
                             }
                             @Override
                             public void onError(String errorMessage) {
@@ -249,6 +247,5 @@ public class StatisticAdminFragment extends Fragment {
         }
         return false;
     }
-
 }
 

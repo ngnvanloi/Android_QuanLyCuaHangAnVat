@@ -1,4 +1,4 @@
-package com.example.quanlycuahangbandoanvat.GUI.LocationFragment;
+package com.example.quanlycuahangbandoanvat.GUI.MainFragment.LocationFragment;
 import com.example.quanlycuahangbandoanvat.R;
 
 import android.os.Bundle;
