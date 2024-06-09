@@ -15,6 +15,7 @@
     <color name="blue">#3b5998</color>
     <color name="gray">#3b3b3b</color>
     <color name="gray100">#d5d3d0</color>
+    <color name="btnHuy">#440000</color>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/design_default_color_primary</item>

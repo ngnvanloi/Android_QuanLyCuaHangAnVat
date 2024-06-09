@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +34,9 @@ import com.example.quanlycuahangbandoanvat.DTO.Cart;
 import com.example.quanlycuahangbandoanvat.DTO.CartDetail;
 import com.example.quanlycuahangbandoanvat.DTO.Customer;
 import com.example.quanlycuahangbandoanvat.DTO.Notification;
+import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Account;
 import com.example.quanlycuahangbandoanvat.R;
+import com.google.firebase.Timestamp;
 
 import org.checkerframework.checker.units.qual.C;
 import org.w3c.dom.Text;
@@ -129,7 +133,7 @@ public class PaymentFragment extends Fragment {
                 // Xử lý thêm bill tại đây
                String current_cartID = getCartIDFromSharedReferences();
                String current_cusID = getCustomerIDFromSharedReferences();
-               Bill bill = new Bill(null,current_cartID,current_cusID,current_promotionID,new Date(), new Date(),"Chờ xác nhận",totalPayment);
+               Bill bill = new Bill(null,current_cartID,current_cusID,current_promotionID,new Timestamp(new Date()), new Timestamp(new Date()),"Chờ xác nhận",totalPayment);
                billDAO.insert(bill, new CRUDCallback() {
                    @Override
                    public void onCRUDComplete(int result) {
@@ -157,6 +161,7 @@ public class PaymentFragment extends Fragment {
                                                    public void onCRUDComplete(int result) {
                                                        if (result == 1){
                                                            setCartIDToSharedReferences("");
+                                                           loadFragment(new Account());
                                                        }
                                                    }
                                                });
@@ -193,5 +198,11 @@ public class PaymentFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("current_cart_id", value);
         editor.apply();
+    }
+    private void loadFragment(Fragment fragment) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.FrameLayoutMainActivity, fragment);
+        fragmentTransaction.commit();
     }
 }

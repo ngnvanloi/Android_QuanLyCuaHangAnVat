@@ -1,66 +1,80 @@
 package com.example.quanlycuahangbandoanvat.GUI.Admin.OrderFragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.quanlycuahangbandoanvat.Adapter.AdminCustomAdapterRecyclerViewShowCurrentDetailOrder;
+import com.example.quanlycuahangbandoanvat.DTO.Bill;
 import com.example.quanlycuahangbandoanvat.R;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CurrentOrder#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class CurrentOrder extends Fragment {
+    private AdminCustomAdapterRecyclerViewShowCurrentDetailOrder adminCustomAdapterRecyclerViewCurrentOrder;
+    private ArrayList<Bill> listBill = new ArrayList<>();
+    private RecyclerView recyclerViewAdminCurrOrder;
+    private FirebaseFirestore firestore;
+    private ListenerRegistration listenerRegistration; // Store the listener registration
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_current_order, container, false);
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+        // Initialize Firestore
+        firestore = FirebaseFirestore.getInstance();
 
-    public CurrentOrder() {
-        // Required empty public constructor
+        // Add Controls
+        recyclerViewAdminCurrOrder = view.findViewById(R.id.recyclerViewCurrentOrder);
+        recyclerViewAdminCurrOrder.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Add listener for real-time updates
+        loadAllBillCurrentOrder();
+
+
+        return view;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CurrentOrder.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CurrentOrder newInstance(String param1, String param2) {
-        CurrentOrder fragment = new CurrentOrder();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private void loadAllBillCurrentOrder() {
+        listenerRegistration = firestore.collection("bill").whereEqualTo("bill_Status", "Chờ xác nhận").addSnapshotListener((querySnapshot, error) -> {
+            if (error != null) {
+                return;
+            }
+            if (querySnapshot != null) {
+                List<DocumentSnapshot> documentSnapshots = querySnapshot.getDocuments();
+                listBill.clear();
+
+                for (DocumentSnapshot document : documentSnapshots) {
+                    Bill bill = document.toObject(Bill.class);
+                    if (bill != null) {
+                        listBill.add(bill);
+                    }
+                }
+                updateRecyclerView();
+            }
+        });
+    }
+
+
+    private void updateRecyclerView() {
+        adminCustomAdapterRecyclerViewCurrentOrder = new AdminCustomAdapterRecyclerViewShowCurrentDetailOrder(getContext(), listBill);
+        recyclerViewAdminCurrOrder.setAdapter(adminCustomAdapterRecyclerViewCurrentOrder);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_current_order, container, false);
     }
 }

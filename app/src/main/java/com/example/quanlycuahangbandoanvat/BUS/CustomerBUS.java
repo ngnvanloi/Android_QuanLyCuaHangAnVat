@@ -34,15 +34,20 @@ public class CustomerBUS {
     public Customer getByCustomerID(String id) {
         int vitri = -1;
         int i = 0;
-        while (i <= this.listCustomer.size() && vitri == -1) {
+        while (i < this.listCustomer.size() && vitri == -1) {
             if (this.listCustomer.get(i).getCus_ID().equals(id)) {
                 vitri = i;
             } else {
                 i++;
             }
         }
-        return this.listCustomer.get(vitri);
+        if (vitri != -1) {
+            return this.listCustomer.get(vitri);
+        } else {
+            return null;
+        }
     }
+
 
     public int getIndexByCustomerID(String id) {
         int i = 0;

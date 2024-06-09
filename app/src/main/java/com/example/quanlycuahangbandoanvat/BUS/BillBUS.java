@@ -1,13 +1,11 @@
 package com.example.quanlycuahangbandoanvat.BUS;
 
 import com.example.quanlycuahangbandoanvat.DTO.Bill;
-import com.example.quanlycuahangbandoanvat.DTO.Cart;
-import com.example.quanlycuahangbandoanvat.DTO.CartDetail;
-import com.example.quanlycuahangbandoanvat.DTO.Food;
+
+import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class BillBUS {
     private ArrayList<Bill> listBill = new ArrayList<>();
@@ -57,22 +55,25 @@ public class BillBUS {
         }
     }
     public float[] getStatisticByMonth(int month, int year) {
-        float[] dailyRevenue = new float[31];
         Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, 1);
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        float[] dailyRevenue = new float[daysInMonth];
 
         for (Bill bill : listBill) {
-            Date orderDate = bill.getOrder_Date();
-            calendar.setTime(orderDate);
+            Timestamp orderTimestamp = bill.getOrder_Date();
+            if (orderTimestamp != null) {
+                calendar.setTimeInMillis(orderTimestamp.toDate().getTime());
 
-            int billMonth = calendar.get(Calendar.MONTH) + 1;
-            int billYear = calendar.get(Calendar.YEAR);
+                int billMonth = calendar.get(Calendar.MONTH) + 1;
+                int billYear = calendar.get(Calendar.YEAR);
 
-            if (billMonth == month && billYear == year) {
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                dailyRevenue[day - 1] += bill.getTotal_Bill();
+                if (billMonth == month && billYear == year) {
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+                    dailyRevenue[day - 1] += bill.getTotal_Bill();
+                }
             }
         }
-
         return dailyRevenue;
     }
     public int getTotalBill() {

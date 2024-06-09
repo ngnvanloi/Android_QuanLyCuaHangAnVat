@@ -24,12 +24,15 @@ import com.example.quanlycuahangbandoanvat.DAO.Callback.CRUDCallback;
 import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackCartDetail;
 import com.example.quanlycuahangbandoanvat.DAO.CartDetailDAO;
 import com.example.quanlycuahangbandoanvat.DAO.FoodDAO;
+import com.example.quanlycuahangbandoanvat.DAO.NotificationDAO;
 import com.example.quanlycuahangbandoanvat.DTO.Bill;
 import com.example.quanlycuahangbandoanvat.DTO.CartDetail;
+import com.example.quanlycuahangbandoanvat.DTO.Notification;
 import com.example.quanlycuahangbandoanvat.GUI.AccountFragment.AccountOrder_Fragment;
 import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Account;
 import com.example.quanlycuahangbandoanvat.R;
 
+import com.google.firebase.Timestamp;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +46,7 @@ public class CustomAdapterRecycleViewOderBillTrue extends RecyclerView.Adapter<C
     private CartDetailDAO cartDetailDAO = new CartDetailDAO();
     private ArrayList<CartDetail> listCartDetail = new ArrayList<>();
     BillDAO billDAO = new BillDAO();
+    NotificationDAO notificationDAO = new NotificationDAO();
     AlertDialog dialog;
 
     public CustomAdapterRecycleViewOderBillTrue(Context context, ArrayList<Bill> listBill) {
@@ -63,15 +67,20 @@ public class CustomAdapterRecycleViewOderBillTrue extends RecyclerView.Adapter<C
         Bill bill = listBill.get(position);
         holder.txtIdBillOder.setText(bill.getBill_ID());
 
+        Date orderDate = bill.getOrder_Date().toDate();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
-        holder.txtDateOder.setText(sdf.format(bill.getOrder_Date()));
+        String formattedDate = sdf.format(orderDate);
+        holder.txtDateOder.setText(formattedDate);
+
         holder.txtBillStatus.setText(bill.getBill_Status());
 
-        // Kiểm tra trạng thái của đơn hàng và đặt màu nền cho CardView
-        if (bill.getBill_Status().equals("Chờ xác nhận") || bill.getBill_Status().equals("Đơn đã hủy")) {
+        // Set màu cho bill status
+        if (bill.getBill_Status().equals("Chờ xác nhận")) {
             holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.red));
-        } else {
+        } else if (bill.getBill_Status().equals("Đã xác nhận")){
             holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.green));
+        }else{
+            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.btnHuy));
         }
 
         holder.imageBtnDetails.setOnClickListener(new View.OnClickListener() {
@@ -104,8 +113,14 @@ public class CustomAdapterRecycleViewOderBillTrue extends RecyclerView.Adapter<C
 
         txtDialogBillID.setText(bill.getBill_ID());
         txtDialogCusID.setText(bill.getCus_ID());
-        txtDialogOrderDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(bill.getOrder_Date()));
-        txtDialogDeliveryDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(bill.getDelivery_Order()));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        Date orderDate = bill.getOrder_Date().toDate();
+        String formattedOrderDate = sdf.format(orderDate);
+        txtDialogOrderDate.setText(formattedOrderDate);
+        Date deliveryDate = bill.getDelivery_Order().toDate();
+        String formattedDeliveryDate = sdf.format(deliveryDate);
+        txtDialogDeliveryDate.setText(formattedDeliveryDate);
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         txtDialogTotalBill.setText(currencyFormatter.format(bill.getTotal_Bill()));
         txtDialogBillStatus.setText(bill.getBill_Status());
@@ -135,7 +150,7 @@ public class CustomAdapterRecycleViewOderBillTrue extends RecyclerView.Adapter<C
         btnDatLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bill billNew = new Bill(null, bill.getCart_ID(), bill.getCus_ID(), bill.getFood_Promotion_ID(), new Date(), new Date(), "Chờ xác nhận", bill.getTotal_Bill());
+                Bill billNew = new Bill(null, bill.getCart_ID(), bill.getCus_ID(), bill.getFood_Promotion_ID(), new Timestamp(new Date()), new Timestamp(new Date()), "Chờ xác nhận", bill.getTotal_Bill());
 
                 AlertDialog.Builder confirmBuilder = new AlertDialog.Builder(context);
                 confirmBuilder.setTitle("Xác nhận đặt lại đơn hàng");
@@ -148,6 +163,18 @@ public class CustomAdapterRecycleViewOderBillTrue extends RecyclerView.Adapter<C
                                 AlertDialog.Builder infoBuilder = new AlertDialog.Builder(context);
                                 infoBuilder.setTitle("Thông báo");
                                 infoBuilder.setMessage("Đơn hàng đã được đặt lại thành công !");
+
+                                String receder_ID = "XUdl4K3PDIo56n6t16OR";
+                                Notification notification = new Notification(null,billNew.getBill_ID(),receder_ID,bill.getCus_ID(),new Date(),false,"Đơn hàng " + bill.getBill_ID() + " đang chờ xác nhận !" );
+                                notificationDAO.insert(notification, new CRUDCallback() {
+                                    @Override
+                                    public void onCRUDComplete(int result) {
+                                        if (result == 1){
+
+                                        }
+                                    }
+                                });
+
                                 infoBuilder.setPositiveButton("OK", (dialog, which) -> {
                                     dialog.dismiss();
                                     loadFragment(new Account());
@@ -172,7 +199,7 @@ public class CustomAdapterRecycleViewOderBillTrue extends RecyclerView.Adapter<C
                     confirmBuilder.setTitle("Xác nhận hủy đơn hàng");
                     confirmBuilder.setMessage("Bạn có chắc muốn hủy đơn hàng này?");
                     confirmBuilder.setPositiveButton("Hủy", (dialog, which) -> {
-                        Bill billUpdate = new Bill(bill.getBill_ID(), bill.getCart_ID(), bill.getCus_ID(), bill.getFood_Promotion_ID(), bill.getOrder_Date(), new Date(), "Đơn đã hủy", bill.getTotal_Bill());
+                        Bill billUpdate = new Bill(bill.getBill_ID(), bill.getCart_ID(), bill.getCus_ID(), bill.getFood_Promotion_ID(), bill.getOrder_Date(), new Timestamp(new Date()), "Đơn đã hủy", bill.getTotal_Bill());
                         billDAO.update(billUpdate, new CRUDCallback() {
                             @Override
                             public void onCRUDComplete(int result) {
@@ -180,6 +207,16 @@ public class CustomAdapterRecycleViewOderBillTrue extends RecyclerView.Adapter<C
                                     AlertDialog.Builder infoBuilder = new AlertDialog.Builder(context);
                                     infoBuilder.setTitle("Thông báo");
                                     infoBuilder.setMessage("Đơn hàng đã được hủy thành công !");
+                                    String receder_ID = "XUdl4K3PDIo56n6t16OR";
+                                    Notification notification = new Notification(null,bill.getBill_ID(),receder_ID,bill.getCus_ID(),new Date(),false,"Khách Hàng " + bill.getCus_ID() + " vừa hủy đơn hàng " + bill.getCart_ID());
+                                    notificationDAO.insert(notification, new CRUDCallback() {
+                                        @Override
+                                        public void onCRUDComplete(int result) {
+                                            if (result == 1){
+
+                                            }
+                                        }
+                                    });
                                     txtDialogBillStatus.setText(billUpdate.getBill_Status());
                                     infoBuilder.setPositiveButton("OK", (dialog, which) -> {
                                         dialog.dismiss();
