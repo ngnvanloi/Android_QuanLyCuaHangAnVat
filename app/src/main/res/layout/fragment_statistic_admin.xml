@@ -90,7 +90,16 @@
                 android:text="Thông kê" />
 
 
-            <ScrollView
+        <TextView
+            android:id="@+id/tv_nodata"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Không có dữ liệu"
+            android:textColor="#F44336"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

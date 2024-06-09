@@ -2,14 +2,20 @@ package com.example.quanlycuahangbandoanvat.Adapter;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +35,7 @@ import com.example.quanlycuahangbandoanvat.DAO.CartDetailDAO;
 import com.example.quanlycuahangbandoanvat.DTO.Cart;
 import com.example.quanlycuahangbandoanvat.DTO.CartDetail;
 import com.example.quanlycuahangbandoanvat.DTO.Food;
+import com.example.quanlycuahangbandoanvat.GUI.MenuFragment.DetailFoodActivity.DetailFoodActivity;
 import com.example.quanlycuahangbandoanvat.Helper.Formatter;
 import com.example.quanlycuahangbandoanvat.R;
 
@@ -42,6 +49,7 @@ public class CustomAdapterListViewFood extends ArrayAdapter<Food> {
     CartDetailBUS cartDetailBUS = new CartDetailBUS();
     CartDAO cartDAO = new CartDAO();
     CartDetailDAO cartDetailDAO = new CartDetailDAO();
+    ListView  listViewAllFood;
 
     public CustomAdapterListViewFood(@NonNull Context context, int layoutItem, @NonNull ArrayList<Food> listFood) {
         super(context, layoutItem, listFood);
@@ -86,7 +94,6 @@ public class CustomAdapterListViewFood extends ArrayAdapter<Food> {
 
 
 
-
         btnAddFoodToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +110,8 @@ public class CustomAdapterListViewFood extends ArrayAdapter<Food> {
 
         return convertView;
     }
+
+
 
     private void updateCart(String cartID, String customerID, Food food) {
         cartDetailDAO.selectAllByCartID(cartID, new OnDataLoadedCallbackCartDetail() {

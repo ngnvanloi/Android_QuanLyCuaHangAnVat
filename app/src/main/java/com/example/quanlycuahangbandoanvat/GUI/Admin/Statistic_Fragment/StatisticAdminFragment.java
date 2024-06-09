@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quanlycuahangbandoanvat.BUS.BillBUS;
@@ -112,6 +113,7 @@ public class StatisticAdminFragment extends Fragment {
         edtMonth=view.findViewById(R.id.edtMonth);
         edtYear=view.findViewById(R.id.edtYear);
 
+
         btnThongKe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +133,21 @@ public class StatisticAdminFragment extends Fragment {
                                 billBUS = new BillBUS(t);
 
                                 dailyRevenue = billBUS.getStatisticByMonth(month, year);
-                                loadBarChartData(dailyRevenue);
+
+                                if (hasRevenueData(dailyRevenue)) {
+
+                                    TextView noDataTextView = view.findViewById(R.id.tv_nodata);
+                                    loadBarChartData(dailyRevenue);
+                                    barChart.setVisibility(View.VISIBLE);
+                                    noDataTextView.setVisibility(View.GONE);
+
+                                } else {
+                                    TextView noDataTextView = view.findViewById(R.id.tv_nodata);
+                                    barChart.setVisibility(View.GONE);
+                                    noDataTextView.setVisibility(View.VISIBLE);
+
+                                }
+
                             }
                             @Override
                             public void onError(String errorMessage) {
@@ -185,6 +201,13 @@ public class StatisticAdminFragment extends Fragment {
             entries.add(new BarEntry(i + 1, dailyRevenue[i]));
         }
 
+        if (entries.isEmpty()) {
+            barChart.setVisibility(View.GONE);
+            return;
+        } else {
+            barChart.setVisibility(View.VISIBLE);
+        }
+
         BarDataSet dataSet = new BarDataSet(entries, "Doanh thu hàng ngày");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         dataSet.setValueTextSize(16f);
@@ -194,7 +217,6 @@ public class StatisticAdminFragment extends Fragment {
                 if (barEntry.getY() == 0) {
                     return "";
                 }
-
                 return Formatter.FormatVND(barEntry.getY());
             }
         });
@@ -219,5 +241,14 @@ public class StatisticAdminFragment extends Fragment {
 
         barChart.invalidate();
     }
+    private boolean hasRevenueData(float[] dailyRevenue) {
+        for (float revenue : dailyRevenue) {
+            if (revenue != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 

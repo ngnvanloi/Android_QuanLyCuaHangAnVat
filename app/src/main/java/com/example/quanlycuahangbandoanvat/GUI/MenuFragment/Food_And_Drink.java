@@ -1,5 +1,6 @@
 package com.example.quanlycuahangbandoanvat.GUI.MenuFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.example.quanlycuahangbandoanvat.BUS.FoodBUS;
 import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackFood;
 import com.example.quanlycuahangbandoanvat.DAO.FoodDAO;
 import com.example.quanlycuahangbandoanvat.DTO.Food;
+import com.example.quanlycuahangbandoanvat.GUI.MenuFragment.DetailFoodActivity.DetailFoodActivity;
 import com.example.quanlycuahangbandoanvat.R;
 
 import java.util.ArrayList;
@@ -84,32 +87,6 @@ public class Food_And_Drink extends Fragment {
     ArrayList<Food> listFood = new ArrayList<>();
     ArrayList<Food> listFoodByCategory = new ArrayList<>();
     int selectedPosition = -1;
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        // ánh xạ ID
-//        listViewFoodAndDrink = (view).findViewById(R.id.listViewFoodAndDrink);
-//
-//        // innit array list Food
-//        foodDAO.selectAll(new OnDataLoadedCallbackFood() {
-//            @Override
-//            public void onDataLoaded(ArrayList<Food> Foods) {
-//                listFood.addAll(Foods);
-//                foodBUS = new FoodBUS(listFood);
-//
-//                // init listview
-//                listFoodByCategory.addAll(foodBUS.getFoodByCategory("qqIT6qeMyCMtD6A7CoBS"));
-//                customAdapterFood = new CustomAdapterListViewFood(getContext(), R.layout.layout_food_item, listFoodByCategory);
-//                listViewFoodAndDrink.setAdapter(customAdapterFood);
-//            }
-//            @Override
-//            public void onError(String errorMessage) {
-//
-//            }
-//        });
-//
-//    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -131,6 +108,17 @@ public class Food_And_Drink extends Fragment {
             @Override
             public void onError(String errorMessage) {
                 Log.e("TAG", "Error in selectAll: " + errorMessage);
+            }
+        });
+        listViewFoodAndDrink.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Lấy item được click
+                Food selectedFood = (Food) parent.getItemAtPosition(position);
+
+                Intent intent = new Intent(getContext(), DetailFoodActivity.class);
+                intent.putExtra("SelectedFood", selectedFood);
+                startActivity(intent);
             }
         });
     }

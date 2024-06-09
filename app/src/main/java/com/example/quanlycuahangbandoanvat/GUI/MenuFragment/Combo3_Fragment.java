@@ -1,5 +1,6 @@
 package com.example.quanlycuahangbandoanvat.GUI.MenuFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterListViewFood;
@@ -16,6 +18,7 @@ import com.example.quanlycuahangbandoanvat.BUS.FoodBUS;
 import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackFood;
 import com.example.quanlycuahangbandoanvat.DAO.FoodDAO;
 import com.example.quanlycuahangbandoanvat.DTO.Food;
+import com.example.quanlycuahangbandoanvat.GUI.MenuFragment.DetailFoodActivity.DetailFoodActivity;
 import com.example.quanlycuahangbandoanvat.R;
 
 import java.util.ArrayList;
@@ -107,6 +110,17 @@ public class Combo3_Fragment extends Fragment {
             }
 
 
+        });
+        listViewCombo3Food.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Lấy item được click
+                Food selectedFood = (Food) parent.getItemAtPosition(position);
+
+                Intent intent = new Intent(getContext(), DetailFoodActivity.class);
+                intent.putExtra("SelectedFood", selectedFood);
+                startActivity(intent);
+            }
         });
 
     }

@@ -15,9 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyCuaHangBanDoAnVat"
         tools:targetApi="31">
-<!--        <activity-->
-<!--            android:name=".GUI.MainActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".GUI.MenuFragment.DetailFoodActivity.DetailFoodActivity"
+            android:exported="false" />
+        <!-- <activity -->
+        <!-- android:name=".GUI.MainActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- Key Api của map google -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -34,7 +37,7 @@
             android:name=".GUI.Admin.ActivityAdminMain"
             android:exported="false" />
         <activity
-            android:name=".GUI.MainActivity"
+            android:name=".GUI.Admin.ActivityAdminMain"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,5 +48,3 @@
     </application>
 
 </manifest>
-
-<!--.GUI.Admin.ActivityAdminMain-->
