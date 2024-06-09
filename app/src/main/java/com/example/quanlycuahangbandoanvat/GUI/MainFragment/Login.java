@@ -302,11 +302,11 @@ public class Login extends Fragment implements View.OnClickListener {
                     editor.apply();
 
                     // Hiển thị thông báo và chuyển sang giao diện tài khoản
-                    Toast.makeText(getContext(), "Login successfully !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Register successfully ! Please add your address and phone number information ", Toast.LENGTH_SHORT).show();
                     loadFragmentAccount();
                 }
                 else {
-                    Toast.makeText(getContext(), "Login unsuccessfully :<", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Register unsuccessfully :<", Toast.LENGTH_SHORT).show();
                 }
             }
         });

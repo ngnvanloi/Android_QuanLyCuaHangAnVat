@@ -148,8 +148,6 @@ public class Account extends Fragment {
 
             }
         });
-
-
     }
     private boolean isUserLoggedIn() {
         boolean result = false;
