@@ -1,6 +1,8 @@
 package com.example.quanlycuahangbandoanvat.DTO;
 
-public class Food {
+import java.io.Serializable;
+
+public class Food implements Serializable {
     private String Food_ID;
     private String Food_Name;
     private String Food_Description;
