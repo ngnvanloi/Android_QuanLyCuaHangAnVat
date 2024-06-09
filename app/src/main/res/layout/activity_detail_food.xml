@@ -67,7 +67,7 @@
             android:layout_marginTop="20dp"
             android:text="Món ăn gà rán, mì ý"
             android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textSize="23dp"
             android:layout_weight="1"
             android:textStyle="bold" />
 
@@ -104,7 +104,7 @@
                 android:layout_marginTop="5dp"
                 android:text="Thành phần"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -114,6 +114,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="0.5"
                 android:letterSpacing="0.1"
+                android:textSize="20dp"
                 android:text="Một miếng gà, một đĩa mì."/>
             <TextView
                 android:id="@+id/textView556"
@@ -132,6 +133,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="0.5"
                 android:letterSpacing="0.1"
+                android:textSize="18dp"
                 android:text="Một món ăn hấp dẫn, với mùi thơm quyến rũ từ những gia vị đặc trưng và hương vị độc đáo kích thích vị giác. Đó là sự kết hợp hoàn hảo giữa các thành phần." />
         </LinearLayout>
     </ScrollView>

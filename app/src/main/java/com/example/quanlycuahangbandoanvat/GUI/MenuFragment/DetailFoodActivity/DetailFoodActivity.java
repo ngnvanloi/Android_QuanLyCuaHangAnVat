@@ -4,17 +4,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.quanlycuahangbandoanvat.BUS.CartBUS;
+import com.example.quanlycuahangbandoanvat.BUS.CartDetailBUS;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.CRUDCallback;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackCart;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackCartDetail;
+import com.example.quanlycuahangbandoanvat.DAO.CartDAO;
+import com.example.quanlycuahangbandoanvat.DAO.CartDetailDAO;
+import com.example.quanlycuahangbandoanvat.DTO.Cart;
+import com.example.quanlycuahangbandoanvat.DTO.CartDetail;
 import com.example.quanlycuahangbandoanvat.DTO.Food;
 import com.example.quanlycuahangbandoanvat.Helper.Formatter;
 import com.example.quanlycuahangbandoanvat.R;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -24,8 +38,17 @@ public class DetailFoodActivity extends AppCompatActivity {
     private ImageView imageView_Back,imgdetailfood;
 
     private TextView namedetailfood, pricedetailfood, motadetail;
+    TextView themcart;
 
-    @SuppressLint("MissingInflatedId")
+
+    ArrayList<Food> listFood;
+    CartBUS cartBUS = new CartBUS();
+    CartDetailBUS cartDetailBUS = new CartDetailBUS();
+    CartDAO cartDAO = new CartDAO();
+    CartDetailDAO cartDetailDAO = new CartDetailDAO();
+    Food food = new Food();
+
+    @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +59,7 @@ public class DetailFoodActivity extends AppCompatActivity {
         namedetailfood = findViewById(R.id.namedetailfood);
         pricedetailfood = findViewById(R.id.pricedetailfood);
         motadetail = findViewById(R.id.motadetail);
+        themcart=findViewById(R.id.themcart);
 
         // Lấy thông tin chi tiết của Food
         Intent intent = getIntent();
@@ -60,6 +84,7 @@ public class DetailFoodActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-    }
+        ////sự kiện cho buttom thêm vào giỏ hàng //
 
+    }
 }
