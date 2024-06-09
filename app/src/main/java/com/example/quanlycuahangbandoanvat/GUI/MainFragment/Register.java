@@ -219,8 +219,6 @@ public class Register extends Fragment {
 
                             }
                         });
-
-
                     }
                 }
                 else {
@@ -229,6 +227,7 @@ public class Register extends Fragment {
             }
         });
 
+        // google register
 
     }
 

@@ -78,6 +78,12 @@ public class MainActivity extends AppCompatActivity implements OnNavigationLinkC
         // notification icon
         //showIconNotification(getCustomerIDFromSharedPreferences());
 
+//        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        editor.putString("current_customer_id","");
+//        editor.apply();
+
+
         // Customer ViewModel
         customerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);
 

@@ -123,25 +123,25 @@
                             android:layout_marginBottom="20dp"
                             android:textSize="17dp" />
 
-                        <Button
-                            android:id="@+id/button2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/blue"
-                            android:drawableLeft="@drawable/facebook30"
+<!--                        <Button-->
+<!--                            android:id="@+id/button2"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:backgroundTint="@color/blue"-->
+<!--                            android:drawableLeft="@drawable/facebook30"-->
 
-                            android:text="Đăng nhập bằng Facebook" />
+<!--                            android:text="Đăng nhập bằng Facebook" />-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/button3"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:backgroundTint="@color/black"-->
+<!--                            android:drawableLeft="@drawable/apple30"-->
+<!--                            android:text="Đăng nhập bằng Apple" />-->
 
                         <Button
-                            android:id="@+id/button3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/black"
-                            android:drawableLeft="@drawable/apple30"
-                            android:text="Đăng nhập bằng Apple" />
-
-                        <Button
-                            android:id="@+id/button4"
+                            android:id="@+id/btnLoginWithGoogle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/red"

@@ -22,9 +22,16 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.google-services"
+            android:value="true" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="default_channel_id" />
 
         <activity
-            android:name=".GUI.MainDemoFirebase"
+            android:name=".GUI.Admin.ActivityAdminMain"
             android:exported="false" />
         <activity
             android:name=".GUI.MainActivity"
