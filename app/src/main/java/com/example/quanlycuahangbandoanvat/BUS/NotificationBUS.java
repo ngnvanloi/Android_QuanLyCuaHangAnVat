@@ -1,6 +1,7 @@
 package com.example.quanlycuahangbandoanvat.BUS;
 
 import com.example.quanlycuahangbandoanvat.DTO.Notification;
+import com.example.quanlycuahangbandoanvat.Helper.NotificationDateComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,6 +45,15 @@ public class NotificationBUS {
         }
         return vitri;
     }
+//    public ArrayList<Notification> getListNotificationByCustomerID(String id) {
+//        ArrayList<Notification> result = new ArrayList<>();
+//        for(Notification item: this.listNotification) {
+//            if(item.getReceiver_ID().equals(id)) {
+//                result.add(item);
+//            }
+//        }
+//        return result;
+//    }
     public ArrayList<Notification> getListNotificationByCustomerID(String id) {
         ArrayList<Notification> result = new ArrayList<>();
         for(Notification item: this.listNotification) {
@@ -51,6 +61,8 @@ public class NotificationBUS {
                 result.add(item);
             }
         }
+        // sắp xếp theo ngày gần nhất
+        Collections.sort(result, new NotificationDateComparator());
         return result;
     }
     public boolean isExistUnnoticedNotificationByCustomerID(String id) {
