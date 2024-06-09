@@ -64,7 +64,7 @@ public class PromotionBUS {
         for (Promotion Item : this.listPromotion)
         {
             long millisecondsUntilEnd = Item.getDate_End().getTime() - System.currentTimeMillis();
-            if(millisecondsUntilEnd > 0)
+            if (millisecondsUntilEnd > 0 && Item.getDate_Start().getTime() <= System.currentTimeMillis())
             {
                 newPromotion.add(Item);
             }
