@@ -13,6 +13,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import com.bumptech.glide.Glide;
+import com.example.quanlycuahangbandoanvat.BUS.NotificationBUS;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackNotification;
+import com.example.quanlycuahangbandoanvat.DAO.NotificationDAO;
+import com.example.quanlycuahangbandoanvat.DTO.Notification;
 import com.example.quanlycuahangbandoanvat.GUI.Admin.HomeFragment.HomeAdminFragment;
 import com.example.quanlycuahangbandoanvat.GUI.Admin.LogoutFragment.LogoutAdminFragment;
 import com.example.quanlycuahangbandoanvat.GUI.Admin.NotificationFragment.NotificationAdminFragment;
@@ -29,6 +34,8 @@ import com.example.quanlycuahangbandoanvat.GUI.MainFragment.Voucher;
 import com.example.quanlycuahangbandoanvat.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 public class ActivityAdminMain extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
@@ -38,7 +45,7 @@ public class ActivityAdminMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_main);
-        frameLayoutMainActivity = findViewById(R.id.FrameLayoutMainActivity);
+        frameLayoutMainActivity = findViewById(R.id.FrameLayoutAdminActivity);
         bottomNavigationView = findViewById(R.id.BottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_homeadmin);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -74,7 +81,6 @@ public class ActivityAdminMain extends AppCompatActivity {
                                 }
                             })
                             .show();
-
                     break;
                 default:
                     return false;
@@ -86,7 +92,7 @@ public class ActivityAdminMain extends AppCompatActivity {
     private void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.FrameLayoutMainActivity, fragment);
+        fragmentTransaction.replace(R.id.FrameLayoutAdminActivity, fragment);
         fragmentTransaction.commit();
     }
 }

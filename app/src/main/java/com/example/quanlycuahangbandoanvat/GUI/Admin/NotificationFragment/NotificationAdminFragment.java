@@ -1,14 +1,27 @@
 package com.example.quanlycuahangbandoanvat.GUI.Admin.NotificationFragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterFragmentNotification;
+import com.example.quanlycuahangbandoanvat.Adapter.CustomAdapterFragmentNotificationForAdmin;
+import com.example.quanlycuahangbandoanvat.BUS.NotificationBUS;
+import com.example.quanlycuahangbandoanvat.DAO.Callback.OnDataLoadedCallbackNotification;
+import com.example.quanlycuahangbandoanvat.DAO.NotificationDAO;
+import com.example.quanlycuahangbandoanvat.DTO.Notification;
 import com.example.quanlycuahangbandoanvat.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,5 +75,40 @@ public class NotificationAdminFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_notification_admin, container, false);
+    }
+
+    NotificationBUS notificationBUS = new NotificationBUS();
+    NotificationDAO notificationDAO = new NotificationDAO();
+    ArrayList<Notification> listNotification = new ArrayList<>();
+    CustomAdapterFragmentNotificationForAdmin adapterFragmentNotification;
+    ListView listViewNotification;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // ánh xạ ID
+        listViewNotification = view.findViewById(R.id.listViewNotificationForAdmin);
+        // get admin_ID
+        String admin_ID = "XUdl4K3PDIo56n6t16OR";
+        // hiển thị thông báo
+        notificationDAO.selectAll(new OnDataLoadedCallbackNotification() {
+            @Override
+            public void onDataLoaded(ArrayList<Notification> t) {
+                listNotification.addAll(t);
+                notificationBUS = new NotificationBUS(listNotification);
+                adapterFragmentNotification = new CustomAdapterFragmentNotificationForAdmin(getContext(), R.layout.layout_notification_item, notificationBUS.getListNotificationByCustomerID(admin_ID));
+                listViewNotification.setAdapter(adapterFragmentNotification);
+                adapterFragmentNotification.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onDataLoadedSingle(Notification t) {
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
     }
 }

@@ -34,10 +34,10 @@
             android:value="default_channel_id" />
 
         <activity
-            android:name=".GUI.Admin.ActivityAdminMain"
+            android:name=".GUI.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".GUI.MainActivity"
+            android:name=".GUI.Admin.ActivityAdminMain"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

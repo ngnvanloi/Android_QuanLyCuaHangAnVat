@@ -114,7 +114,6 @@ public class Option extends Fragment {
             }
         });
     }
-
     private String getCustomerIDFromSharedReferences(){
         SharedPreferences sharedPref =  requireActivity().getPreferences(Context.MODE_PRIVATE);
         String currentCustomerID = sharedPref.getString("current_customer_id", "");

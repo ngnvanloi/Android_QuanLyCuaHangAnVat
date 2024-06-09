@@ -138,7 +138,7 @@ public class NotificationDAO implements DAOinterface<Notification> {
 
     public void updateNotificationStatus(String notificationId, boolean status, final CRUDCallback callback) {
         DocumentReference notificationRef = firestore.collection("notification").document(notificationId);
-        notificationRef.update("Notification_Status", status).addOnCompleteListener(new OnCompleteListener<Void>() {
+        notificationRef.update("notification_Status", status).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
